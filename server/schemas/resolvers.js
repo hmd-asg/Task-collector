@@ -1,23 +1,29 @@
-const { User, Monster } = require("../models");
+const { User, Project, Task } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("monsters");
+      return User.find();
     },
-    user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("monsters");
+    userTasks: async (parent, { username }) => {
+      return User.findOne({ username }).populate("tasks");
     },
-    monsters: async () => {
-      return Monster.find().sort({ name: 1 });
+    userProjects: async (parent, { username }) => {
+      return User.findOne({ username }).populate("projects");
     },
-    monster: async (parent, { monsterId }) => {
-      return Monster.findOne({ _id: monsterId });
+    project: async (parent, { projectId }) => {
+      return Project.findOne({ projectId }).populate('tasks');
     },
-    me: async (parent, args, context) => {
+    meTasks: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("comments");
+        return User.findOne({ _id: context.user._id }).populate("tasks");
+      }
+      throw AuthenticationError;
+    },
+    meProjects: async (parent, args, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id }).populate("projects");
       }
       throw AuthenticationError;
     },
@@ -46,23 +52,42 @@ const resolvers = {
 
       return { token, user };
     },
-    addMonster: async (parent, { monsterName, type, habitat, weaknesses }) => {
-      const monster = await Monster.create({
-        monsterName,
-        type,
-        habitat,
-        weaknesses,
+    addProject: async (parent, { title, description, users }, context) => {
+      users.push(context.user)
+      const project = await Project.create({
+        title,
+        description,
+        users,
+        tasks: [],
       });
-
-      return monster;
-    },
-    addComment: async (parent, { monsterId, commentText }, context) => {
-      if (context.user) {
-        return Monster.findOneAndUpdate(
-          { _id: monsterId },
+      for (const user of users) {
+       await User.findOneAndUpdate(
+          { _id: user._id },
           {
             $addToSet: {
-              comments: { commentText, commentAuthor: context.user.username },
+              projects: project,
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      }
+
+      return project;
+    },
+    addTask: async (parent, { projectId, description }, context) => {
+      if (context.user) {
+        const task = await Task.create({
+          description,
+          status: "todo"
+        });
+        return Project.findOneAndUpdate(
+          { _id: projectId },
+          {
+            $addToSet: {
+              tasks: task,
             },
           },
           {
@@ -73,49 +98,56 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-    removeMonster: async (parent, { monsterId }, context) => {
-      const monster = await Monster.findOneAndDelete({
-        _id: monsterId,
-      });
-
-      return monster;
-    },
-    removeComment: async (parent, { monsterId, commentId }, context) => {
+    assignTask: async (parent, { userId, task }, context) => {
       if (context.user) {
-        return Monster.findOneAndUpdate(
-          { _id: monsterId },
+        return User.findOneAndUpdate(
+          { _id: userId },
           {
-            $pull: {
-              comments: {
-                _id: commentId,
-                commentAuthor: context.user.username,
-              },
+            $addToSet: {
+              tasks: task,
             },
           },
-          { new: true }
+          {
+            new: true,
+            runValidators: true,
+          }
         );
       }
       throw AuthenticationError;
+    }, 
+    removeProject: async (parent, { projectId }, context) => {
+      const project = await Project.findOneAndDelete({
+        _id: projectId,
+      });
+
+      return project;
     },
-    updateComment: async (parent, { monsterId, commentId, commentText }) => {
-      return Monster.findOneAndUpdate(
-        { _id: monsterId, "comments._id": commentId },
-        { $set: { "comments.$.commentText": commentText } },
+    removeTask: async (parent, { taskId }, context) => {
+      const task = await Task.findOneAndDelete({
+        _id: taskId,
+      });
+
+      return task;
+    },
+    updateTask: async (parent, { taskId, description, status }) => {
+      return Task.findOneAndUpdate(
+        { _id: taskId },
+        { $set: { description: description, status: status } },
         { new: true }
       );
     },
-    updateMonster: async (
+    updateProject: async (
       parent,
-      { monsterId, monsterName, type, habitat, weaknesses }
+      { projectId, title, description, users, tasks }
     ) => {
       const updateFields = {};
-      if (monsterName) updateFields.monsterName = monsterName;
-      if (type) updateFields.type = type;
-      if (habitat) updateFields.habitat = habitat;
-      if (weaknesses) updateFields.weaknesses = weaknesses;
+      if (title) updateFields.title = title;
+      if (description) updateFields.description = description;
+      if (users) updateFields.users = users;
+      if (tasks) updateFields.tasks = tasks;
 
-      return Monster.findOneAndUpdate(
-        { _id: monsterId },
+      return Project.findOneAndUpdate(
+        { _id: projectId },
         { $set: updateFields },
         { new: true }
       );
