@@ -1,29 +1,28 @@
 import { useQuery } from "@apollo/client";
 
-import MonsterList from "../components/MonsterList";
-import MonsterForm from "../components/MonsterForm";
+import ProjectList from "../components/ProjectList";
+import ProjectForm from "../components/ProjectForm";
 
-import { QUERY_MONSTERS } from "../utils/queries";
+import { QUERY_PROECTS } from "../utils/queries";
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_MONSTERS);
-  const monsters = data?.monsters || [];
+  const { loading, data } = useQuery(QUERY_PROEJCTS);
+  const projects = data?.projects || [];
 
   return (
     <main>
-      <div className='flex-row justify-center'>
-        <div
-          className='col-12 col-md-10 mb-3 p-3'
-          style={{ border: "1px dotted #1a1a1a" }}
-        >
-          <MonsterForm />
-        </div>
-        <div className='col-12 col-md-8 mb-3'>
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <MonsterList monsters={monsters} title='Witcher Monsters' />
-          )}
+      <div className='container p-3'>
+        <div className="row">
+          <div className='col-12 col-md-5 border border-primary'>
+            <ProjectForm />
+          </div>
+          <div className='col-12 col-md-7 border border-primary'>
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <ProjectList projects={projects} title='Projects' />
+            )}
+          </div>
         </div>
       </div>
     </main>
