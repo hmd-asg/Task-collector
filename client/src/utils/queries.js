@@ -9,49 +9,40 @@ export const QUERY_USER = gql`
     }
   }
 `;
-
-export const QUERY_MONSTERS = gql`
-  query getMonsters {
-    monsters {
+export const QUERY_USERS = gql`
+  query users {
+    user{
       _id
-      monsterName
-      type
-      habitat
-      weaknesses
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-      }
-    }
-  }
-`;
-
-export const QUERY_SINGLE_MONSTER = gql`
-  query getSingleMonster($monsterId: ID!) {
-    monster(monsterId: $monsterId) {
-      _id
-      monsterName
-      type
-      habitat
-      weaknesses
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-      }
+      username
     }
   }
 `;
 
 export const QUERY_ME = gql`
-  query me {
-    me {
+  query meProjects {
+    user {
       _id
       username
-      email
+      projects {
+        _id
+        title
+        description
+      }
     }
   }
 `;
+
+export const QUERY_SINGLE_PROJECT = gql`
+  query getSingleProject($projectId: ID!) {
+    project(projectId: $projectId) {
+      _id
+      title
+      descriptions
+      tasks {
+        _id
+      }
+    }
+  }
+`;
+
+
