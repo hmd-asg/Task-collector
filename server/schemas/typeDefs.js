@@ -1,26 +1,30 @@
-const typeDefs = `
+const { gql } = require('apollo-server-express');
+
+const typeDefs = gql`
   type User {
-    _id: ID
-    username: String
-    email: String
-    password: String
-    
+    _id: ID!
+    username: String!
+    email: String!
+    tasks: [Task]
+    projects: [Project]
   }
 
-  type Monster {
-    _id: ID
-    monsterName: String!
-    type: String!
-    habitat: String!
-    weaknesses: [String]!
-    comments: [Comment]
+  type Project {
+    _id: ID!
+    projectName: String!
+    description: String
+    createdBy: User!
+    users: [User]
+    tasks: [Task]
+    completedTasks: Int
   }
 
-  type Comment {
-    _id: ID
-    commentText: String
-    commentAuthor: String
+  type Task {
+    _id: ID!
+    description: String!
+    status: String!
     createdAt: String
+    updatedAt: String
   }
 
   type Auth {
@@ -30,21 +34,23 @@ const typeDefs = `
 
   type Query {
     users: [User]
-    user(username: String!): User
-    monsters(username: String): [Monster]
-    monster(monsterId: ID!): Monster
-    me: User
+    userTasks(username: String!): User
+    userProjects(username: String!): User
+    project(projectId: ID!): Project
+    meTasks: User
+    meProjects: User
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addMonster(monsterName: String!, type: String!, habitat: String!, weaknesses: [String]!): Monster
-    updateMonster(monsterId: ID!, monsterName: String, type: String, habitat: String, weaknesses: [String]): Monster
-      removeMonster(monsterId: ID!): Monster
-    addComment(monsterId: ID!, commentText: String!): Monster
-    updateComment(monsterId: ID!, commentId: ID!, commentText: String!): Monster
-    removeComment(monsterId: ID!, commentId: ID!): Monster
+    addProject(title: String!, description: String, users: [ID]!): Project
+    addTask(projectId: ID!, description: String!): Project
+    assignTask(userId: ID!, task: ID!): User
+    removeProject(projectId: ID!): Project
+    removeTask(taskId: ID!): Task
+    updateTask(taskId: ID!, description: String, status: String): Task
+    updateProject(projectId: ID!, title: String, description: String, users: [ID], tasks: [ID]): Project
   }
 `;
 
