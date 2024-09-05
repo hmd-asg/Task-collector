@@ -3,10 +3,10 @@ import { useQuery } from "@apollo/client";
 import ProjectList from "../components/ProjectList";
 import ProjectForm from "../components/ProjectForm";
 
-import { QUERY_PROECTS } from "../utils/queries";
+import { QUERY_PROJECTS } from "../utils/queries";
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_PROEJCTS);
+  const { loading, data } = useQuery(QUERY_PROJECTS);
   const projects = data?.projects || [];
 
   return (
