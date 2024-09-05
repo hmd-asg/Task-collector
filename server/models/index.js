@@ -1,4 +1,5 @@
 const User = require("./User");
-const Monster = require("./Monster");
+const Project = require("./Project");
+const Task = require("./Task");
 
-module.exports = { User, Monster };
+module.exports = { User, Project, Task };
