@@ -39,4 +39,4 @@ const ProjectList = ({ projects }) => {
   );
 };
 
-export default MonsterList;
+export default ProjectList;

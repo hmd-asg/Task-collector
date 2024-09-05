@@ -80,8 +80,7 @@ const resolvers = {
     addTask: async (parent, { projectId, description }, context) => {
       if (context.user) {
         const task = await Task.create({
-          description,
-          status: "todo"
+          description
         });
         return Project.findOneAndUpdate(
           { _id: projectId },
