@@ -58,5 +58,13 @@ export const QUERY_SINGLE_PROJECT = gql`
     }
   }
 `;
+export const UPDATE_TASK_STATUS = gql`
+    mutation UpdateTaskStatus($id: ID!, $status: String!) {
+        updateTaskStatus(id: $id, status: $status) {
+            _id
+            status
+        }
+    }
+`;
 
 
