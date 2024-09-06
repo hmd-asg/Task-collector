@@ -20,13 +20,13 @@ export const QUERY_USERS = gql`
 
 export const QUERY_ME = gql`
   query meProjects {
-    user {
+    meProjects {
       _id
       username
       projects {
-        _id
         title
         description
+        _id
       }
     }
   }

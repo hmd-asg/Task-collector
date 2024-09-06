@@ -7,7 +7,7 @@ import { QUERY_ME } from "../../utils/queries";
 const ProjectForm = () => {
   const [formState, setFormState] = useState({ title: "", description: "" });
   const [addProject, { error }] = useMutation(ADD_PROJECT, {
-    refetchQueries: [QUERY_ME, "meProjects"],
+    refetchQueries: [QUERY_ME, "me"],
   });
 
   const handleFormSubmit = async (event) => {
@@ -40,14 +40,14 @@ const ProjectForm = () => {
       <h3>Add Project : </h3>
 
       <form
-        className='flex-row justify-center justify-space-between-md align-center'
+        className='py-2'
         onSubmit={handleFormSubmit}
       >
-        <input type='text' placeholder='Enter a Project title'
+        <input type='text' name="title" placeholder='Enter a Project title'
           value={formState.title} onChange={handleChange} />
 
         <textarea
-          name='monsterName'
+          name='description'
           placeholder="Enter A project description"
           value={formState.description}
           className='form-input w-100'
