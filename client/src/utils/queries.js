@@ -48,15 +48,22 @@ export const QUERY_ME = gql`
 
 export const QUERY_SINGLE_PROJECT = gql`
   query getSingleProject($projectId: ID!) {
-    project(projectId: $projectId) {
+      project(projectId: $projectId) {
+    _id
+    description
+    tasks {
       _id
-      title
-      descriptions
-      tasks {
-        _id
-      }
+      description
+      status
+    }
+    title
+    users {
+      _id
+      email
+      username
     }
   }
+}
 `;
 export const UPDATE_TASK_STATUS = gql`
     mutation UpdateTaskStatus($id: ID!, $status: String!) {
