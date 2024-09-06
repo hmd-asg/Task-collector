@@ -7,7 +7,7 @@ import { QUERY_ME } from "../../utils/queries";
 const ProjectForm = () => {
   const [formState, setFormState] = useState({ title: "", description: "" });
   const [addProject, { error }] = useMutation(ADD_PROJECT, {
-    refetchQueries: [QUERY_ME, "meProjects"],
+    refetchQueries: [QUERY_ME, "me"],
   });
 
   const handleFormSubmit = async (event) => {
