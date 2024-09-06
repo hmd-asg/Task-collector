@@ -23,6 +23,11 @@ const Tasks = () => {
         }
     };
 
+    const deleteTask = (taskId) => {
+        setTasks(tasks.filter(task => task.id !== taskId));
+    };
+
+
     return (
         <Container>
             <Row className="my-4">
@@ -36,7 +41,18 @@ const Tasks = () => {
                     <div className="d-grid gap-3">
                         {tasks.filter(task => task.status === 'in-progress').map(task => (
                             <Card key={task.id} className="task-card" onClick={() => toggleTaskStatus(task.id)}>
-                                <Card.Body>{task.text}</Card.Body>
+                                <Card.Body>{task.text}
+                                    <Button
+                                        variant="danger"
+                                        className="float-end"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteTask(task.id);
+                                        }}
+                                    >
+                                        Delete
+                                    </Button>
+                                </Card.Body>
                             </Card>
                         ))}
                     </div>
@@ -46,7 +62,18 @@ const Tasks = () => {
                     <div className="d-grid gap-3">
                         {tasks.filter(task => task.status === 'completed').map(task => (
                             <Card key={task.id} className="task-card" onClick={() => toggleTaskStatus(task.id)}>
-                                <Card.Body>{task.text}</Card.Body>
+                                <Card.Body>{task.text}
+                                    <Button
+                                        variant="danger"
+                                        className="float-end"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteTask(task.id);
+                                        }}
+                                    >
+                                        Delete
+                                    </Button>
+                                </Card.Body>
                             </Card>
                         ))}
                     </div>
