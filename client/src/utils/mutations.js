@@ -37,6 +37,7 @@ export const ADD_PROJECT = gql`
 `;
 
 export const ADD_TASK = gql`
+
   mutation addTask($projectId: ID!, $description: String!) {
   addTask(projectId: $projectId, description: $description) {
     _id
