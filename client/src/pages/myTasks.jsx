@@ -1,82 +1,37 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import React from 'react';
+import { useQuery, useMutation } from '@apollo/client';
+import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { QUERY_ME, UPDATE_TASK_STATUS } from "../utils/queries";
+import TaskList from '../components/taskList';
 
 const Tasks = () => {
-    const [tasks, setTasks] = useState([
-        { id: 1, text: 'Task 1', status: 'in-progress' },
-        { id: 2, text: 'Task 2', status: 'completed' },
-    ]);
+    const { loading, error, data } = useQuery(QUERY_ME);
+    const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
 
-    const toggleTaskStatus = (taskId) => {
-        setTasks(tasks.map(task =>
-            task.id === taskId
-                ? { ...task, status: task.status === 'in-progress' ? 'completed' : 'in-progress' }
-                : task
-        ));
-    };
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
-    const addTask = () => {
-        const taskText = prompt('Enter task description:');
-        if (taskText) {
-            setTasks([...tasks, { id: Date.now(), text: taskText, status: 'in-progress' }]);
+    const tasks = data?.me.tasks || [];
+
+    const handleStatusChange = async (taskId, newStatus) => {
+        try {
+            await updateTaskStatus({ 
+                variables: { id: taskId, status: newStatus }
+            });
+        } catch (e) {
+            console.error("Error updating task status", e);
         }
     };
 
-    const deleteTask = (taskId) => {
-        setTasks(tasks.filter(task => task.id !== taskId));
-    };
-
-
     return (
         <Container>
-            <Row className="my-4">
-                <Col>
-                    <Button variant="primary" onClick={addTask}>Add Task</Button>
-                </Col>
-            </Row>
             <Row>
                 <Col md={6}>
-                    <h2>In Progress</h2>
-                    <div className="d-grid gap-3">
-                        {tasks.filter(task => task.status === 'in-progress').map(task => (
-                            <Card key={task.id} className="task-card" onClick={() => toggleTaskStatus(task.id)}>
-                                <Card.Body>{task.text}
-                                    <Button
-                                        variant="danger"
-                                        className="float-end"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            deleteTask(task.id);
-                                        }}
-                                    >
-                                        Delete
-                                    </Button>
-                                </Card.Body>
-                            </Card>
-                        ))}
-                    </div>
+                    <TaskList tasks={tasks} status="not-started" onStatusChange={handleStatusChange} />
                 </Col>
                 <Col md={6}>
-                    <h2>Completed</h2>
-                    <div className="d-grid gap-3">
-                        {tasks.filter(task => task.status === 'completed').map(task => (
-                            <Card key={task.id} className="task-card" onClick={() => toggleTaskStatus(task.id)}>
-                                <Card.Body>{task.text}
-                                    <Button
-                                        variant="danger"
-                                        className="float-end"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            deleteTask(task.id);
-                                        }}
-                                    >
-                                        Delete
-                                    </Button>
-                                </Card.Body>
-                            </Card>
-                        ))}
-                    </div>
+                    <TaskList tasks={tasks} status="in-progress" onStatusChange={handleStatusChange} />
                 </Col>
             </Row>
         </Container>
