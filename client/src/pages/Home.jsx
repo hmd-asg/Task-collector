@@ -1,6 +1,4 @@
 import { useQuery } from "@apollo/client";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import ProjectList from "../components/ProjectList";
 import ProjectForm from "../components/ProjectForm";
 import Auth from "../utils/auth";
