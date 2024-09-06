@@ -9,6 +9,9 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("projects", "tasks");
     },
+    projects: async () => {
+      return Project.find().populate('tasks');
+    },
     project: async (parent, { projectId }) => {
       return Project.findOne({ projectId }).populate('tasks');
     },
