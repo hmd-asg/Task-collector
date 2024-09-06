@@ -24,26 +24,16 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_MONSTER = gql`
-  mutation addMonster(
-    $monsterName: String!
-    $type: String!
-    $habitat: String!
-    $weaknesses: [String]!
-  ) {
-    addMonster(
-      monsterName: $monsterName
-      type: $type
-      habitat: $habitat
-      weaknesses: $weaknesses
-    ) {
-      weaknesses
-      habitat
-      type
-      monsterName
+export const ADD_PROJECT = gql`
+ mutation addProject($title: String!, $description: String) {
+  addProject(title: $title, description: $description) {
+    users {
       _id
     }
+    title
+    description
   }
+}
 `;
 
 export const ADD_COMMENT = gql`

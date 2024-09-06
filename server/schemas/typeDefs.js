@@ -1,6 +1,4 @@
-const { gql } = require('apollo-server-express');
-
-const typeDefs = gql`
+const typeDefs = `
   type User {
     _id: ID!
     username: String!
@@ -11,20 +9,16 @@ const typeDefs = gql`
 
   type Project {
     _id: ID!
-    projectName: String!
+    title: String!
     description: String
-    createdBy: User!
     users: [User]
     tasks: [Task]
-    completedTasks: Int
   }
 
   type Task {
     _id: ID!
     description: String!
     status: String!
-    createdAt: String
-    updatedAt: String
   }
 
   type Auth {
@@ -44,7 +38,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addProject(title: String!, description: String, users: [ID]!): Project
+    addProject(title: String!, description: String): Project
     addTask(projectId: ID!, description: String!): Project
     assignTask(userId: ID!, task: ID!): User
     removeProject(projectId: ID!): Project
