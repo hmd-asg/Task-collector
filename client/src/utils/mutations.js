@@ -36,7 +36,7 @@ export const ADD_PROJECT = gql`
 }
 `;
 
-export const ADD_COMMENT = gql`
+export const ADD_TASK = gql`
   mutation addComment($monsterId: ID!, $commentText: String!) {
     addComment(monsterId: $monsterId, commentText: $commentText) {
       _id
