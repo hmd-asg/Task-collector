@@ -52,30 +52,21 @@ const resolvers = {
 
       return { token, user };
     },
-    addProject: async (parent, { title, description, users }, context) => {
-      users.push(context.user)
-      const project = await Project.create({
-        title,
-        description,
-        users,
-        tasks: [],
-      });
-      for (const user of users) {
-       await User.findOneAndUpdate(
-          { _id: user._id },
-          {
-            $addToSet: {
-              projects: project,
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-
-      return project;
+    addProject: async (parent, { title, description }, context) => {
+      const newProject = await Project.create({title, description});
+      if (context.user) {
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+        { $addToSet: { projects: newProject._id }},
+        { new: true }
+        )
+      return await Project.findOneAndUpdate(
+        { _id: newProject._id },
+        { $addToSet: { users: context.user._id }},
+        { new: true }
+      );
+    }
+      return newProject;
     },
     addTask: async (parent, { projectId, description }, context) => {
       if (context.user) {
@@ -86,7 +77,7 @@ const resolvers = {
           { _id: projectId },
           {
             $addToSet: {
-              tasks: task,
+              tasks: task._id,
             },
           },
           {
@@ -103,7 +94,7 @@ const resolvers = {
           { _id: userId },
           {
             $addToSet: {
-              tasks: task,
+              tasks: task._id,
             },
           },
           {

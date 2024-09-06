@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 
 import { ADD_PROJECT } from "../../utils/mutations";
-import { QUERY_PROJETCS } from "../../utils/queries";
+import { QUERY_ME } from "../../utils/queries";
 
 const ProjectForm = ({ users }) => {
   const [formState, setFormState] = useState({ title: "", description: "" });
   const [addProject, { error }] = useMutation(ADD_PROJECT, {
-    refetchQueries: [QUERY_PROJETCS, "getProjects"],
+    refetchQueries: [QUERY_ME, "getProjects"],
   });
   const [contributors, setContributors] = useState([]);
 
@@ -16,7 +16,7 @@ const ProjectForm = ({ users }) => {
 
     try {
       const { data } = await addProject({
-        variables: { ...formState, contributers },
+        variables: { ...formState, contributors },
       });
       console.log(data);
       setFormState({

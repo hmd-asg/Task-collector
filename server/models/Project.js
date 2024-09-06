@@ -1,17 +1,12 @@
 const { Schema, model } = require("mongoose");
 
 const projectSchema = new Schema({
-  projectName: {
+  title: {
     type: String,
     required: true,
     trim: true,
   },
   description: String,
-  createdBy: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
   users: [
     {
         type: Schema.Types.ObjectId,
