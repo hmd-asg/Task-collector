@@ -15,12 +15,12 @@ const ProjectList = ({ projects }) => {
             </h4>
             <div className='card-body bg-light p-2'>
               <p>{project.description}</p>
-              <h5>Contributers:</h5>
+              {/* <h5>Contributers:</h5>
               <ul>
                 {project.users.map((user) => (
                   <li key={user._id}>{user.username}</li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
             <div className="card-footer d-flex">
               <button type="button" class="btn btn-primary"><i class="bi bi-plus"></i>Edit</button>

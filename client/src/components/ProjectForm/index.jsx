@@ -4,19 +4,18 @@ import { useMutation } from "@apollo/client";
 import { ADD_PROJECT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 
-const ProjectForm = ({ users }) => {
+const ProjectForm = () => {
   const [formState, setFormState] = useState({ title: "", description: "" });
   const [addProject, { error }] = useMutation(ADD_PROJECT, {
-    refetchQueries: [QUERY_ME, "getProjects"],
+    refetchQueries: [QUERY_ME, "meProjects"],
   });
-  const [contributors, setContributors] = useState([]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
       const { data } = await addProject({
-        variables: { ...formState, contributors },
+        variables: { ...formState },
       });
       console.log(data);
       setFormState({
@@ -28,13 +27,7 @@ const ProjectForm = ({ users }) => {
     }
   };
 
-  const handleCheckboxChange = (username) => {
-    setContributors((prevContributor) =>
-      prevContributor.includes(username)
-        ? prevContributor.filter((user) => user !== username)
-        : [...prevContributor, username]
-    );
-  };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -61,21 +54,6 @@ const ProjectForm = ({ users }) => {
           style={{ lineHeight: "1.5", resize: "vertical" }}
           onChange={handleChange}
         ></textarea>
-
-        <div>
-          <p>Select Contributors:</p>
-          {users.map((user) => (
-            <label key={user._id}>
-              <input
-                type="checkbox"
-                checked={contributors.includes(user.username)}
-                onChange={() => handleCheckboxChange(user.username)}
-              />
-              {username}
-            </label>
-          ))}
-        </div>
-
 
         <div className='col-12 col-lg-3'>
           <button className='btn btn-primary btn-block py-3' type='submit'>
