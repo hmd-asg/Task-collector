@@ -37,78 +37,80 @@ export const ADD_PROJECT = gql`
 `;
 
 export const ADD_TASK = gql`
-  mutation addComment($monsterId: ID!, $commentText: String!) {
-    addComment(monsterId: $monsterId, commentText: $commentText) {
+
+  mutation addTask($projectId: ID!, $description: String!) {
+  addTask(projectId: $projectId, description: $description) {
+    _id
+    tasks {
+      description
+      status
       _id
-      comments {
+    }
+  }
+}
+`;
+
+export const ASSIGN_TASK = gql`
+  mutation assignTask($userId: ID!, $task: ID!) {
+    assignTask(userId: $userId, task: $task) {
+      username
+      tasks {
+        description
+        status
         _id
-        commentText
-        createdAt
       }
-    }
-  }
-`;
-
-export const REMOVE_MONSTER = gql`
-  mutation removeMonster($monsterId: ID!) {
-    removeMonster(monsterId: $monsterId) {
       _id
     }
   }
 `;
 
-export const REMOVE_COMMENT = gql`
-  mutation removeComment($monsterId: ID!, $commentId: ID!) {
-    removeComment(monsterId: $monsterId, commentId: $commentId) {
-      _id
-      comments {
-        _id
-        commentText
-      }
+export const REMOVE_PROJECT = gql`
+  mutation removeProject($projectId: ID!) {
+  removeProject(projectId: $projectId) {
+    _id
+    description
+    tasks {
+      description
+      status
     }
   }
+}
 `;
 
-export const UPDATE_COMMENT = gql`
-  mutation updateComment(
-    $monsterId: ID!
-    $commentId: ID!
-    $commentText: String!
-  ) {
-    updateComment(
-      monsterId: $monsterId
-      commentId: $commentId
-      commentText: $commentText
-    ) {
-      _id
-      comments {
-        _id
-        commentText
-      }
-    }
+export const REMOVE_TASK = gql`
+  mutation removeTask($taskId: ID!) {
+  removeTask(taskId: $taskId) {
+    description
+    status
+    _id
   }
+}
 `;
 
-export const UPDATE_MONSTER = gql`
-  mutation updateMonster(
-    $monsterId: ID!
-    $monsterName: String
-    $type: String
-    $habitat: String
-    $weaknesses: [String]
-  ) {
-    updateMonster(
-      monsterId: $monsterId
-      monsterName: $monsterName
-      type: $type
-      habitat: $habitat
-      weaknesses: $weaknesses
-    ) {
+export const UPDATE_TASK = gql`
+mutation updateTask($taskId: ID!, $description: String, $status: String) {
+  updateTask(taskId: $taskId, description: $description, status: $status) {
+    description
+    status
+    _id
+  }
+}
+`;
+
+export const UPDATE_PROJECT = gql`
+  mutation updateProject($projectId: ID!, $title: String, $description: String, $users: [ID], $tasks: [ID]) {
+  updateProject(projectId: $projectId, title: $title, description: $description, users: $users, tasks: $tasks) {
+    _id
+    description
+    tasks {
+      description
+      status
+    }
+    title
+    users {
+      username
       _id
-      monsterName
-      type
-      habitat
-      weaknesses
     }
   }
+}
 `;

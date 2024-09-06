@@ -2,12 +2,20 @@ import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
   query user($username: String!) {
-    user(username: $username) {
-      _id
-      username
-      email
+  user(username: $username) {
+    username
+    email
+    _id
+    projects {
+      description
+      title
+    }
+    tasks {
+      description
+      status
     }
   }
+}
 `;
 export const QUERY_USERS = gql`
   query users {
@@ -19,8 +27,9 @@ export const QUERY_USERS = gql`
 `;
 
 export const QUERY_ME = gql`
-  query meProjects {
-    meProjects {
+
+  query me {
+    me {
       _id
       username
       projects {
@@ -28,21 +37,41 @@ export const QUERY_ME = gql`
         description
         _id
       }
+      tasks {
+        _id
+        description
+        status
+      }
     }
   }
 `;
 
 export const QUERY_SINGLE_PROJECT = gql`
   query getSingleProject($projectId: ID!) {
-    project(projectId: $projectId) {
+      project(projectId: $projectId) {
+    _id
+    description
+    tasks {
       _id
-      title
-      descriptions
-      tasks {
-        _id
-      }
+      description
+      status
+    }
+    title
+    users {
+      _id
+      email
+      username
     }
   }
+}
+`;
+export const UPDATE_TASK_STATUS = gql`
+    mutation UpdateTaskStatus($id: ID!, $status: String!) {
+        updateTaskStatus(id: $id, status: $status) {
+            _id
+            status
+        }
+    }
 `;
 
 

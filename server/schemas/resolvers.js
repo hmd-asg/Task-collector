@@ -6,24 +6,18 @@ const resolvers = {
     users: async () => {
       return User.find();
     },
-    userTasks: async (parent, { username }) => {
-      return User.findOne({ username }).populate("tasks");
+    user: async (parent, { username }) => {
+      return User.findOne({ username }).populate("projects", "tasks");
     },
-    userProjects: async (parent, { username }) => {
-      return User.findOne({ username }).populate("projects");
+    projects: async () => {
+      return Project.find().populate('tasks');
     },
     project: async (parent, { projectId }) => {
       return Project.findOne({ projectId }).populate('tasks');
     },
-    meTasks: async (parent, args, context) => {
+    me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("tasks");
-      }
-      throw AuthenticationError;
-    },
-    meProjects: async (parent, args, context) => {
-      if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("projects");
+        return User.findOne({ _id: context.user._id }).populate("projects", "tasks");
       }
       throw AuthenticationError;
     },

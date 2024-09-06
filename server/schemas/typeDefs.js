@@ -28,11 +28,10 @@ const typeDefs = `
 
   type Query {
     users: [User]
-    userTasks(username: String!): User
-    userProjects(username: String!): User
+    user(username: String!): User
     project(projectId: ID!): Project
-    meTasks: User
-    meProjects: User
+    me: User
+    projects: [Project]
   }
 
   type Mutation {
