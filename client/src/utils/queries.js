@@ -27,14 +27,15 @@ export const QUERY_USERS = gql`
 `;
 
 export const QUERY_ME = gql`
+
   query me {
-    user {
+    me {
       _id
       username
       projects {
-        _id
         title
         description
+        _id
       }
       tasks {
         _id
