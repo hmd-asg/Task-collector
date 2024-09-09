@@ -1,6 +1,6 @@
 const db = require("../config/connection");
 const { User, Project, Task } = require("../models");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // Clean database utility
 const cleanDB = async () => {
@@ -13,25 +13,29 @@ const cleanDB = async () => {
     console.error(err);
   }
 };
+// DELETE WHEN APPROVED AND MERGED
+// Users: Each user has an email and password. The user is associated with multiple tasks and projects.
+// Projects: Each project has a title, description, and an array of tasks. It also has an array of users who are associated with the project.
+// Tasks: Each task has a description, a status, is associated with a project, and is assigned to a user.
 
 // Seed data
 const seedData = async () => {
   try {
     // 1. Create Users
     const usersData = [
-      { username: "Geralt of Rivia", email: "geralt@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Yennefer of Vengerberg", email: "yennefer@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Ciri of Cintra", email: "ciri@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Triss Merigold", email: "triss@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Dandelion", email: "dandelion@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Vesemir", email: "vesemir@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Zoltan Chivay", email: "zoltan@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Regis", email: "regis@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "geralt@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "yennefer@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "ciri@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "triss@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "dandelion@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "vesemir@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "zoltan@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      { email: "regis@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
     ];
 
     const users = await User.insertMany(usersData);
 
-    // 2. Create Projects with Users as Creators
+    // 2. Create Projects with Users as Creators and Assign Users
     const projectsData = [
       {
         title: "Defeat the Griffin",
@@ -57,7 +61,7 @@ const seedData = async () => {
 
     const projects = await Project.insertMany(projectsData);
 
-    // 3. Create Tasks and associate them with Projects and Users
+    // 3. Create Tasks, Associate them with Projects and Assign Users
     const tasksData = [
       { description: "Scout the Griffin's Nest", status: "in progress", projectId: projects[0]._id, assignedTo: users[0]._id },
       { description: "Prepare Potions for the Fight", status: "not started", projectId: projects[0]._id, assignedTo: users[1]._id },
@@ -77,7 +81,7 @@ const seedData = async () => {
       await User.findByIdAndUpdate(tasks[i].assignedTo, { $push: { tasks: tasks[i]._id } });
     }
 
-    // Associate Projects with Users
+    // 5. Associate Projects with Users
     for (let i = 0; i < projects.length; i++) {
       await User.updateMany(
         { _id: { $in: projects[i].users } },

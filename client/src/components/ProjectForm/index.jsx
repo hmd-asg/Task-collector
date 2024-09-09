@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-
 import { ADD_PROJECT } from "../../utils/mutations";
 import { QUERY_ME } from "../../utils/queries";
 
@@ -27,25 +26,22 @@ const ProjectForm = () => {
     }
   };
 
-
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
 
-
   return (
-    <>
-      <h3>Add Project : </h3>
-
-      <form
-        className='py-2'
-        onSubmit={handleFormSubmit}
-      >
-        <input type='text' name="title" placeholder='Enter a Project title'
-          value={formState.title} onChange={handleChange} />
-
+    <div className='color-change-5x'>
+      <h3>Add Project :</h3>
+      <form className='py-2' onSubmit={handleFormSubmit}>
+        <input
+          type='text'
+          name="title"
+          placeholder='Enter a Project title'
+          value={formState.title}
+          onChange={handleChange}
+        />
         <textarea
           name='description'
           placeholder="Enter A project description"
@@ -54,7 +50,6 @@ const ProjectForm = () => {
           style={{ lineHeight: "1.5", resize: "vertical" }}
           onChange={handleChange}
         ></textarea>
-
         <div className='col-12 col-lg-3'>
           <button className='btn btn-primary btn-block py-3' type='submit'>
             Add Project
@@ -66,7 +61,7 @@ const ProjectForm = () => {
           </div>
         )}
       </form>
-    </>
+    </div>
   );
 };
 
