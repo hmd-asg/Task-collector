@@ -7,44 +7,46 @@ const Header = () => {
     event.preventDefault();
     Auth.logout();
   };
-  
-    return (
-      <header className='bg-primary text-light mb-4 py-3 flex-row align-center'>
-        <div className='container flex-row justify-space-between-lg justify-center align-center'>
-          <div>
-            <Link className='text-light' to='/'>
-              <h1 className='m-0'>Task Collector</h1>
-            </Link>
-          </div>
-          <div>
-            {Auth.loggedIn() ? (
-              <>
-                <Link className='btn btn-lg btn-info m-2' to='/me'>
-                  {Auth.getProfile().data.username}'s profile
-                </Link>
-                <button className='btn btn-lg btn-light m-2' onClick={logout}>
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link className='btn btn-lg btn-info m-2' to='/login'>
-                  Dashboard
-                </Link>
-                <Link className='btn btn-lg btn-light m-2' to='/my-tasks'>
-                  Tasks
-                </Link>
-                <Link className='btn btn-lg btn-light m-2' to='/signup'>
-                  Projects
-                </Link>
-                <Link className='btn btn-lg btn-light m-2' to='/signup'>
-                  Profile
-                </Link>
-              </>
-            )}
-          </div>
+
+
+  return (
+    <header className='bg-primary text-light mb-4 py-3 flex-row align-center'>
+      <div className='container flex-row justify-space-between-lg justify-center align-center'>
+        <div>
+          <Link className='text-decoration-none text-light' to='/'>
+            <h1 className='m-0'>Task Collector</h1>
+          </Link>
         </div>
-      </header>
+        <div>
+          {Auth.loggedIn() ? (
+            <>
+              <Link className='btn btn-lg btn-info m-2' to='/'>
+                Dashboard
+              </Link>
+              <Link className='btn btn-lg btn-light m-2' to='/tasks'>
+                Tasks
+              </Link>
+              <Link className='btn btn-lg btn-info m-2' to='/me'>
+                {Auth.getProfile().data.username}
+              </Link>
+              <button className='btn btn-lg btn-light m-2' onClick={logout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link className='btn btn-lg btn-light m-2' to='/login'>
+                Login
+              </Link>
+              <Link className='btn btn-lg btn-info m-2' to='/signup'>
+                Sign up
+              </Link>
+            </>
+          )}
+
+        </div>
+      </div>
+    </header>
   );
 };
 

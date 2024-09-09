@@ -54,12 +54,9 @@ const ProjectForm = () => {
           style={{ lineHeight: "1.5", resize: "vertical" }}
           onChange={handleChange}
         ></textarea>
-
-        <div className='col-12 col-lg-3'>
-          <button className='btn btn-primary btn-block py-3' type='submit'>
-            Add Project
-          </button>
-        </div>
+        <button className='btn btn-primary btn-block py-3' type='submit'>
+          Add Project
+        </button>
         {error && (
           <div className='col-12 my-3 bg-danger text-white p-3'>
             {error.message}
