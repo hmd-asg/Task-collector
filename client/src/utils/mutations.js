@@ -98,8 +98,8 @@ mutation updateTask($taskId: ID!, $description: String, $status: String) {
 `;
 
 export const UPDATE_PROJECT = gql`
-  mutation updateProject($projectId: ID!, $title: String, $description: String, $users: [ID], $tasks: [ID]) {
-  updateProject(projectId: $projectId, title: $title, description: $description, users: $users, tasks: $tasks) {
+  mutation updateProject($projectId: ID!, $title: String, $description: String) {
+  updateProject(projectId: $projectId, title: $title, description: $description) {
     _id
     description
     tasks {

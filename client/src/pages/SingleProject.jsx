@@ -1,22 +1,32 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Button } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
 import { UPDATE_PROJECT } from "../utils/mutations";
 const SingleProject = () => {
   const { projectId } = useParams();
+  console.log(projectId);
   const { loading, data } = useQuery(QUERY_SINGLE_PROJECT, {
     variables: { projectId: projectId },
   });
 
   const project = data?.project || {};
+  console.log(data)
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
     users: project.users,
     tasks: project.tasks,
   });
+  useEffect(() => {
+    setFormState({
+      title: project.title,
+    description: project.description,
+    users: project.users,
+    tasks: project.tasks,
+    })
+  }, [projectId]);
   const [updateProject, { error }] = useMutation(UPDATE_PROJECT)
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -37,11 +47,11 @@ const handleUpdateProject = async (event) => {
   return (
     <>
       <div className='my-3'>
-        <h4 className='card-header bg-dark text-light p-2 m-0'>
-          {project.title}
-        </h4>
+        <textarea className='card-header bg-dark text-light p-2 m-0' onChange={handleChange}>
+          {formState.title}
+        </textarea>
         <div className='card-body bg-light p-2'>
-          <textarea onChange={handleChange}>{project.description}</textarea>
+          <textarea onChange={handleChange}>{formState.description}</textarea>
           <Button onClick={handleUpdateProject}>Update Project</Button>
         </div>
 
