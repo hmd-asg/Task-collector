@@ -23,7 +23,7 @@ const Header = () => {
               <Link className='btn btn-lg btn-info m-2' to='/'>
                 Dashboard
               </Link>
-              <Link className='btn btn-lg btn-light m-2' to='/tasks'>
+              <Link className='btn btn-lg btn-light m-2' to='/my-tasks'>
                 Tasks
               </Link>
               <Link className='btn btn-lg btn-info m-2' to='/me'>
