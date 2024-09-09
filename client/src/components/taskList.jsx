@@ -42,7 +42,7 @@ const TaskList = ({ tasks, status, onStatusChange }) => {
                                     </option>
                                 ))}
                             </Form.Select>
-                        </Card.Body>
+                        </Card.Text>
                     </Card>
                 ))}
             </div>
