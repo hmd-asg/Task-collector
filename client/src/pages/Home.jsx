@@ -20,10 +20,10 @@ const Home = () => {
 
   return (
     <div className="row">
-      <div className='col-12 col-md-4 border border-dark m-2'>
+      <div className='col-12 col-md-3 '>
         <ProjectForm />
       </div>
-      <div className='col-12 col-md-8 border border-dark m-2'>
+      <div className='row col-12 col-md-9 border border-dark ms-2'>
         {loading ? (<div>Loading...</div>) : (
           projects &&
           projects.map((project) => (<ProjectCard key={project._id} project={project} />))

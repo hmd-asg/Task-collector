@@ -106,7 +106,6 @@ export const UPDATE_PROJECT = gql`
     }
     title
     users {
-      username
       _id
     }
   }

@@ -38,6 +38,7 @@ const ProjectForm = () => {
         <input
           type='text'
           name="title"
+          className='form-input w-100'
           placeholder='Enter a Project title'
           value={formState.title}
           onChange={handleChange}
@@ -46,12 +47,12 @@ const ProjectForm = () => {
           name='description'
           placeholder="Enter A project description"
           value={formState.description}
-          className='form-input w-100'
-          style={{ lineHeight: "1.5", resize: "vertical" }}
+          className='form-input w-100 mt-4'
+          style={{ lineHeight: "3.5", resize: "vertical" }}
           onChange={handleChange}
         ></textarea>
-        <div className='col-12 col-lg-3'>
-          <button className='btn btn-primary btn-block py-3' type='submit'>
+        <div className='col-12 col-lg-6'>
+          <button className='btn btn-primary my-3' type='submit'>
             Add Project
           </button>
         </div>

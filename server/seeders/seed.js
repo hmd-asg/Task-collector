@@ -63,103 +63,75 @@ const seedData = async () => {
 
     const users = await User.insertMany(usersData);
 
-    // 2. Create Projects with Users as Creators and Assign Users
+    // 2. Create Tasks
+    const tasksData = [
+      { description: "Scout the Griffin's Nest", status: "in progress" },
+      { description: "Prepare Potions for the Fight", status: "not started" },
+      { description: "Explore the Sunstone Caves", status: "in progress" },
+      { description: "Decode the Ancient Texts", status: "completed" },
+      { description: "Organize the King's Guards", status: "not started" },
+      { description: "Set up Defensive Wards", status: "in progress" },
+      { description: "Interview the Manor's Staff", status: "in progress" },
+      { description: "Exorcise the Spirits", status: "not started" },
+    ];
+
+    const tasks = await Task.insertMany(tasksData);
+
+    // 3. Create Projects with Users and Tasks
     const projectsData = [
       {
         title: "Defeat the Griffin",
         description: "A griffin is terrorizing the nearby village.",
         users: [users[0]._id, users[1]._id],
+        tasks: [tasks[0]._id, tasks[1]._id],
       },
       {
         title: "Retrieve the Sunstone",
         description: "Retrieve the ancient Sunstone from the caves.",
         users: [users[2]._id, users[3]._id],
+        tasks: [tasks[2]._id, tasks[3]._id],
       },
       {
         title: "Protect the King",
         description: "Ensure the safety of the king during the council.",
         users: [users[4]._id, users[5]._id],
+        tasks: [tasks[4]._id, tasks[5]._id],
       },
       {
         title: "Investigate the Haunted Manor",
         description: "A manor is said to be haunted, investigate the cause.",
         users: [users[6]._id, users[7]._id],
+        tasks: [tasks[6]._id, tasks[7]._id],
       },
     ];
 
     const projects = await Project.insertMany(projectsData);
 
-    // 3. Create Tasks, Associate them with Projects and Assign Users
-    const tasksData = [
-      {
-        description: "Scout the Griffin's Nest",
-        status: "in progress",
-        projectId: projects[0]._id,
-        assignedTo: users[0]._id,
-      },
-      {
-        description: "Prepare Potions for the Fight",
-        status: "not started",
-        projectId: projects[0]._id,
-        assignedTo: users[1]._id,
-      },
-      {
-        description: "Explore the Sunstone Caves",
-        status: "in progress",
-        projectId: projects[1]._id,
-        assignedTo: users[2]._id,
-      },
-      {
-        description: "Decode the Ancient Texts",
-        status: "completed",
-        projectId: projects[1]._id,
-        assignedTo: users[3]._id,
-      },
-      {
-        description: "Organize the King's Guards",
-        status: "not started",
-        projectId: projects[2]._id,
-        assignedTo: users[4]._id,
-      },
-      {
-        description: "Set up Defensive Wards",
-        status: "in progress",
-        projectId: projects[2]._id,
-        assignedTo: users[5]._id,
-      },
-      {
-        description: "Interview the Manor's Staff",
-        status: "in progress",
-        projectId: projects[3]._id,
-        assignedTo: users[6]._id,
-      },
-      {
-        description: "Exorcise the Spirits",
-        status: "not started",
-        projectId: projects[3]._id,
-        assignedTo: users[7]._id,
-      },
-    ];
-
-    const tasks = await Task.insertMany(tasksData);
-
-    // 4. Associate Tasks with Projects and Users
-    for (let i = 0; i < tasks.length; i++) {
-      await Project.findByIdAndUpdate(tasks[i].projectId, {
-        $push: { tasks: tasks[i]._id },
-      });
-      await User.findByIdAndUpdate(tasks[i].assignedTo, {
-        $push: { tasks: tasks[i]._id },
-      });
-    }
-
-    // 5. Associate Projects with Users
-    for (let i = 0; i < projects.length; i++) {
-      await User.updateMany(
-        { _id: { $in: projects[i].users } },
-        { $push: { projects: projects[i]._id } }
-      );
-    }
+    // 4. Update Users with assigned tasks and projects
+    await User.findByIdAndUpdate(users[0]._id, {
+      $push: { tasks: tasks[0]._id, projects: projects[0]._id },
+    });
+    await User.findByIdAndUpdate(users[1]._id, {
+      $push: { tasks: tasks[1]._id, projects: projects[0]._id },
+    });
+    await User.findByIdAndUpdate(users[2]._id, {
+      $push: { tasks: tasks[2]._id, projects: projects[1]._id },
+    });
+    await User.findByIdAndUpdate(users[3]._id, {
+      $push: { tasks: tasks[3]._id, projects: projects[1]._id },
+    });
+    await User.findByIdAndUpdate(users[4]._id, {
+      $push: { tasks: tasks[4]._id, projects: projects[2]._id },
+    });
+    await User.findByIdAndUpdate(users[5]._id, {
+      $push: { tasks: tasks[5]._id, projects: projects[2]._id },
+    });
+    await User.findByIdAndUpdate(users[6]._id, {
+      $push: { tasks: tasks[6]._id, projects: projects[3]._id },
+    });
+    await User.findByIdAndUpdate(users[7]._id, {
+      $push: { tasks: tasks[7]._id, projects: projects[3]._id },
+    });
 
     console.log("Users, projects, and tasks seeded successfully!");
   } catch (err) {

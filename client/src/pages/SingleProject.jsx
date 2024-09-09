@@ -8,13 +8,11 @@ import TaskForm from "../components/TaskForm";
 
 const SingleProject = () => {
   const { projectId } = useParams();
-  console.log(projectId);
   const { loading, data } = useQuery(QUERY_SINGLE_PROJECT, {
     variables: { projectId: projectId },
   });
 
   const project = data?.project || {};
-  console.log(data);
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
@@ -38,14 +36,18 @@ const SingleProject = () => {
     setFormState({ ...formState, [name]: value });
   };
 
-  const handleUpdateProject = async (event) => {
-    event.preventDefault();
-    try {
-      await updateProject({ variables: { projectId, ...formState } });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+const handleUpdateProject = async (event) => {
+  event.preventDefault();
+  console.log(formState);
+  const title = formState.title;
+  const description = formState.description;
+  try {
+    const newProject = await updateProject({ variables: {projectId, title, description}});
+    console.log(newProject);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   if (loading) {
     return <div>Loading...</div>;
