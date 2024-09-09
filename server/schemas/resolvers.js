@@ -7,7 +7,9 @@ const resolvers = {
       return User.find();
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("projects").populate("tasks");
+
+      return User.findOne({ username }).populate("projects");
+
     },
     projects: async () => {
       return Project.find().populate('tasks');
@@ -47,19 +49,19 @@ const resolvers = {
       return { token, user };
     },
     addProject: async (parent, { title, description }, context) => {
-      const newProject = await Project.create({title, description});
+      const newProject = await Project.create({ title, description });
       if (context.user) {
         await User.findByIdAndUpdate(
           { _id: context.user._id },
-        { $addToSet: { projects: newProject._id }},
-        { new: true }
+          { $addToSet: { projects: newProject._id } },
+          { new: true }
         )
-      return await Project.findOneAndUpdate(
-        { _id: newProject._id },
-        { $addToSet: { users: context.user._id }},
-        { new: true }
-      );
-    }
+        return await Project.findOneAndUpdate(
+          { _id: newProject._id },
+          { $addToSet: { users: context.user._id } },
+          { new: true }
+        );
+      }
       return newProject;
     },
     addTask: async (parent, { projectId, description }, context) => {
@@ -98,7 +100,7 @@ const resolvers = {
         );
       }
       throw AuthenticationError;
-    }, 
+    },
     removeProject: async (parent, { projectId }, context) => {
       const project = await Project.findOneAndDelete({
         _id: projectId,

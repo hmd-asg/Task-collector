@@ -1,6 +1,6 @@
 const db = require("../config/connection");
 const { User, Project, Task } = require("../models");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // Clean database utility
 const cleanDB = async () => {
@@ -19,19 +19,51 @@ const seedData = async () => {
   try {
     // 1. Create Users
     const usersData = [
-      { username: "Geralt of Rivia", email: "geralt@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Yennefer of Vengerberg", email: "yennefer@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Ciri of Cintra", email: "ciri@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Triss Merigold", email: "triss@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Dandelion", email: "dandelion@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Vesemir", email: "vesemir@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Zoltan Chivay", email: "zoltan@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { username: "Regis", email: "regis@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      {
+        username: "Geralt of Rivia",
+        email: "geralt@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Yennefer of Vengerberg",
+        email: "yennefer@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Ciri of Cintra",
+        email: "ciri@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Triss Merigold",
+        email: "triss@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Dandelion",
+        email: "dandelion@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Vesemir",
+        email: "vesemir@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Zoltan Chivay",
+        email: "zoltan@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Regis",
+        email: "regis@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
     ];
 
     const users = await User.insertMany(usersData);
 
-    // 2. Create Projects with Users as Creators
+    // 2. Create Projects with Users as Creators and Assign Users
     const projectsData = [
       {
         title: "Defeat the Griffin",
@@ -57,27 +89,71 @@ const seedData = async () => {
 
     const projects = await Project.insertMany(projectsData);
 
-    // 3. Create Tasks and associate them with Projects and Users
+    // 3. Create Tasks, Associate them with Projects and Assign Users
     const tasksData = [
-      { description: "Scout the Griffin's Nest", status: "in progress", projectId: projects[0]._id, assignedTo: users[0]._id },
-      { description: "Prepare Potions for the Fight", status: "not started", projectId: projects[0]._id, assignedTo: users[1]._id },
-      { description: "Explore the Sunstone Caves", status: "in progress", projectId: projects[1]._id, assignedTo: users[2]._id },
-      { description: "Decode the Ancient Texts", status: "completed", projectId: projects[1]._id, assignedTo: users[3]._id },
-      { description: "Organize the King's Guards", status: "not started", projectId: projects[2]._id, assignedTo: users[4]._id },
-      { description: "Set up Defensive Wards", status: "in progress", projectId: projects[2]._id, assignedTo: users[5]._id },
-      { description: "Interview the Manor's Staff", status: "in progress", projectId: projects[3]._id, assignedTo: users[6]._id },
-      { description: "Exorcise the Spirits", status: "not started", projectId: projects[3]._id, assignedTo: users[7]._id },
+      {
+        description: "Scout the Griffin's Nest",
+        status: "in progress",
+        projectId: projects[0]._id,
+        assignedTo: users[0]._id,
+      },
+      {
+        description: "Prepare Potions for the Fight",
+        status: "not started",
+        projectId: projects[0]._id,
+        assignedTo: users[1]._id,
+      },
+      {
+        description: "Explore the Sunstone Caves",
+        status: "in progress",
+        projectId: projects[1]._id,
+        assignedTo: users[2]._id,
+      },
+      {
+        description: "Decode the Ancient Texts",
+        status: "completed",
+        projectId: projects[1]._id,
+        assignedTo: users[3]._id,
+      },
+      {
+        description: "Organize the King's Guards",
+        status: "not started",
+        projectId: projects[2]._id,
+        assignedTo: users[4]._id,
+      },
+      {
+        description: "Set up Defensive Wards",
+        status: "in progress",
+        projectId: projects[2]._id,
+        assignedTo: users[5]._id,
+      },
+      {
+        description: "Interview the Manor's Staff",
+        status: "in progress",
+        projectId: projects[3]._id,
+        assignedTo: users[6]._id,
+      },
+      {
+        description: "Exorcise the Spirits",
+        status: "not started",
+        projectId: projects[3]._id,
+        assignedTo: users[7]._id,
+      },
     ];
 
     const tasks = await Task.insertMany(tasksData);
 
     // 4. Associate Tasks with Projects and Users
     for (let i = 0; i < tasks.length; i++) {
-      await Project.findByIdAndUpdate(tasks[i].projectId, { $push: { tasks: tasks[i]._id } });
-      await User.findByIdAndUpdate(tasks[i].assignedTo, { $push: { tasks: tasks[i]._id } });
+      await Project.findByIdAndUpdate(tasks[i].projectId, {
+        $push: { tasks: tasks[i]._id },
+      });
+      await User.findByIdAndUpdate(tasks[i].assignedTo, {
+        $push: { tasks: tasks[i]._id },
+      });
     }
 
-    // Associate Projects with Users
+    // 5. Associate Projects with Users
     for (let i = 0; i < projects.length; i++) {
       await User.updateMany(
         { _id: { $in: projects[i].users } },

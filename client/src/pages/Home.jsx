@@ -1,32 +1,36 @@
 import { useQuery } from "@apollo/client";
-import ProjectList from "../components/ProjectCard";
+import ProjectCard from "../components/ProjectCard";
 import ProjectForm from "../components/ProjectForm";
-import Auth from "../utils/auth";
 import { QUERY_ME } from "../utils/queries";
+import { useEffect } from "react";
+import Auth from "../utils/auth";
+import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const projects = data?.me.projects || [];
-  // console.log(Auth.getProfile());
-  console.log(data);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!Auth.loggedIn()) {
+      navigate('/login');
+    }
+  }, []);
 
   return (
-    <main>
-      <div className='container'>
-        <div className="row">
-          <div className='col-12 col-md-5 border border-primary m-2'>
-            <ProjectForm />
-          </div>
-          <div className='col-12 col-md-7 border border-primary m-2'>
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <ProjectList projects={projects} />
-            )}
-          </div>
-        </div>
+    <div className="row">
+      <div className='col-12 col-md-4 border border-dark m-2'>
+        <ProjectForm />
       </div>
-    </main>
+      <div className='col-12 col-md-8 border border-dark m-2'>
+        {loading ? (<div>Loading...</div>) : (
+          projects &&
+          projects.map((project) => (<ProjectCard key={project._id} project={project} />))
+
+        )}
+      </div>
+    </div>
   );
 };
 
