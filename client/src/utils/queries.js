@@ -36,6 +36,10 @@ export const QUERY_ME = gql`
         title
         description
         _id
+        users {
+          _id
+          username
+        }
       }
       tasks {
         _id
