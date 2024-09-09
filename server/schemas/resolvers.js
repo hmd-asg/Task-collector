@@ -7,7 +7,9 @@ const resolvers = {
       return User.find();
     },
     user: async (parent, { username }) => {
+
       return User.findOne({ username }).populate("projects");
+
     },
     projects: async () => {
       return Project.find().populate('tasks');
