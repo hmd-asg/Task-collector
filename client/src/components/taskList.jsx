@@ -30,7 +30,7 @@ const TaskList = ({ tasks, status, onStatusChange }) => {
             <div className="d-grid gap-3">
                 {tasks.filter(task => task.status === status).map(task => (
                     <Card key={task._id} className="task-card">
-                        <Card.Body>
+                        <Card.Text>
                             <div>{task.description}</div>
                             <Form.Select
                                 value={task.status}
@@ -42,7 +42,7 @@ const TaskList = ({ tasks, status, onStatusChange }) => {
                                     </option>
                                 ))}
                             </Form.Select>
-                        </Card.Body>
+                        </Card.Text>
                     </Card>
                 ))}
             </div>

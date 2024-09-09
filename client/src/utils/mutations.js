@@ -42,8 +42,6 @@ export const ADD_TASK = gql`
   addTask(projectId: $projectId, description: $description) {
     _id
     tasks {
-      description
-      status
       _id
     }
   }
