@@ -53,7 +53,7 @@ const ProjectForm = () => {
         ></textarea>
         <div className='col-12 col-lg-6'>
           <button className='btn btn-primary my-3' type='submit'>
-            Add Project
+            Save
           </button>
         </div>
 
