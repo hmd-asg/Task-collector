@@ -13,6 +13,7 @@ const SingleProject = () => {
   });
 
   const project = data?.project || {};
+  console.log(data);
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
