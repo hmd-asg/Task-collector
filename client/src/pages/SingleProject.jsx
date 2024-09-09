@@ -6,13 +6,11 @@ import { QUERY_SINGLE_PROJECT } from "../utils/queries";
 import { UPDATE_PROJECT } from "../utils/mutations";
 const SingleProject = () => {
   const { projectId } = useParams();
-  console.log(projectId);
   const { loading, data } = useQuery(QUERY_SINGLE_PROJECT, {
     variables: { projectId: projectId },
   });
 
   const project = data?.project || {};
-  console.log(data)
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
@@ -34,8 +32,12 @@ const SingleProject = () => {
   };
 const handleUpdateProject = async (event) => {
   event.preventDefault();
+  console.log(formState);
+  const title = formState.title;
+  const description = formState.description;
   try {
-    await updateProject({ variables: {projectId, ...formState}});
+    const newProject = await updateProject({ variables: {projectId, title, description}});
+    console.log(newProject);
   } catch (err) {
     console.error(err);
   }
@@ -47,11 +49,11 @@ const handleUpdateProject = async (event) => {
   return (
     <>
       <div className='my-3'>
-        <textarea className='card-header bg-dark text-light p-2 m-0' onChange={handleChange}>
+        <textarea name="title" className='card-header bg-dark text-light p-2 m-0' onChange={handleChange}>
           {formState.title}
         </textarea>
         <div className='card-body bg-light p-2'>
-          <textarea onChange={handleChange}>{formState.description}</textarea>
+          <textarea name="description" onChange={handleChange}>{formState.description}</textarea>
           <Button onClick={handleUpdateProject}>Update Project</Button>
         </div>
 
