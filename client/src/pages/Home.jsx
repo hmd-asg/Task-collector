@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import ProjectList from "../components/ProjectList";
+import ProjectList from "../components/ProjectCard";
 import ProjectForm from "../components/ProjectForm";
 import Auth from "../utils/auth";
 import { QUERY_ME } from "../utils/queries";
