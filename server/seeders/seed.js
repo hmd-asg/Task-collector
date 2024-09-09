@@ -13,24 +13,52 @@ const cleanDB = async () => {
     console.error(err);
   }
 };
-// DELETE WHEN APPROVED AND MERGED
-// Users: Each user has an email and password. The user is associated with multiple tasks and projects.
-// Projects: Each project has a title, description, and an array of tasks. It also has an array of users who are associated with the project.
-// Tasks: Each task has a description, a status, is associated with a project, and is assigned to a user.
 
 // Seed data
 const seedData = async () => {
   try {
     // 1. Create Users
     const usersData = [
-      { email: "geralt@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "yennefer@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "ciri@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "triss@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "dandelion@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "vesemir@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "zoltan@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
-      { email: "regis@witchersguild.dev", password: await bcrypt.hash("rootroot", 10) },
+      {
+        username: "Geralt of Rivia",
+        email: "geralt@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Yennefer of Vengerberg",
+        email: "yennefer@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Ciri of Cintra",
+        email: "ciri@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Triss Merigold",
+        email: "triss@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Dandelion",
+        email: "dandelion@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Vesemir",
+        email: "vesemir@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Zoltan Chivay",
+        email: "zoltan@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
+      {
+        username: "Regis",
+        email: "regis@witchersguild.dev",
+        password: await bcrypt.hash("rootroot", 10),
+      },
     ];
 
     const users = await User.insertMany(usersData);
@@ -63,22 +91,66 @@ const seedData = async () => {
 
     // 3. Create Tasks, Associate them with Projects and Assign Users
     const tasksData = [
-      { description: "Scout the Griffin's Nest", status: "in progress", projectId: projects[0]._id, assignedTo: users[0]._id },
-      { description: "Prepare Potions for the Fight", status: "not started", projectId: projects[0]._id, assignedTo: users[1]._id },
-      { description: "Explore the Sunstone Caves", status: "in progress", projectId: projects[1]._id, assignedTo: users[2]._id },
-      { description: "Decode the Ancient Texts", status: "completed", projectId: projects[1]._id, assignedTo: users[3]._id },
-      { description: "Organize the King's Guards", status: "not started", projectId: projects[2]._id, assignedTo: users[4]._id },
-      { description: "Set up Defensive Wards", status: "in progress", projectId: projects[2]._id, assignedTo: users[5]._id },
-      { description: "Interview the Manor's Staff", status: "in progress", projectId: projects[3]._id, assignedTo: users[6]._id },
-      { description: "Exorcise the Spirits", status: "not started", projectId: projects[3]._id, assignedTo: users[7]._id },
+      {
+        description: "Scout the Griffin's Nest",
+        status: "in progress",
+        projectId: projects[0]._id,
+        assignedTo: users[0]._id,
+      },
+      {
+        description: "Prepare Potions for the Fight",
+        status: "not started",
+        projectId: projects[0]._id,
+        assignedTo: users[1]._id,
+      },
+      {
+        description: "Explore the Sunstone Caves",
+        status: "in progress",
+        projectId: projects[1]._id,
+        assignedTo: users[2]._id,
+      },
+      {
+        description: "Decode the Ancient Texts",
+        status: "completed",
+        projectId: projects[1]._id,
+        assignedTo: users[3]._id,
+      },
+      {
+        description: "Organize the King's Guards",
+        status: "not started",
+        projectId: projects[2]._id,
+        assignedTo: users[4]._id,
+      },
+      {
+        description: "Set up Defensive Wards",
+        status: "in progress",
+        projectId: projects[2]._id,
+        assignedTo: users[5]._id,
+      },
+      {
+        description: "Interview the Manor's Staff",
+        status: "in progress",
+        projectId: projects[3]._id,
+        assignedTo: users[6]._id,
+      },
+      {
+        description: "Exorcise the Spirits",
+        status: "not started",
+        projectId: projects[3]._id,
+        assignedTo: users[7]._id,
+      },
     ];
 
     const tasks = await Task.insertMany(tasksData);
 
     // 4. Associate Tasks with Projects and Users
     for (let i = 0; i < tasks.length; i++) {
-      await Project.findByIdAndUpdate(tasks[i].projectId, { $push: { tasks: tasks[i]._id } });
-      await User.findByIdAndUpdate(tasks[i].assignedTo, { $push: { tasks: tasks[i]._id } });
+      await Project.findByIdAndUpdate(tasks[i].projectId, {
+        $push: { tasks: tasks[i]._id },
+      });
+      await User.findByIdAndUpdate(tasks[i].assignedTo, {
+        $push: { tasks: tasks[i]._id },
+      });
     }
 
     // 5. Associate Projects with Users
