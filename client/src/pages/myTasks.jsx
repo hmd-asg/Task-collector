@@ -11,9 +11,9 @@ const Tasks = () => {
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
-
+console.log(data);
     const tasks = data?.me.tasks || [];
-
+console.log(tasks);
     const handleStatusChange = async (taskId, newStatus) => {
         try {
             await updateTaskStatus({ 
@@ -28,10 +28,10 @@ const Tasks = () => {
         <Container>
             <Row>
                 <Col md={6}>
-                    <TaskList tasks={tasks} status="not-started" onStatusChange={handleStatusChange} />
+                    <TaskList tasks={tasks} status="not started" onStatusChange={handleStatusChange} />
                 </Col>
                 <Col md={6}>
-                    <TaskList tasks={tasks} status="in-progress" onStatusChange={handleStatusChange} />
+                    <TaskList tasks={tasks} status="in progress" onStatusChange={handleStatusChange} />
                 </Col>
             </Row>
         </Container>

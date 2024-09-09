@@ -11,6 +11,7 @@ const SingleProject = () => {
   });
 
   const project = data?.project || {};
+  console.log(data);
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
@@ -49,11 +50,10 @@ const handleUpdateProject = async (event) => {
   return (
     <>
       <div className='my-3'>
-        <textarea name="title" className='card-header bg-dark text-light p-2 m-0' onChange={handleChange}>
-          {formState.title}
+        <textarea name="title" className='card-header bg-dark text-light p-2 m-0' onChange={handleChange} value={`${formState.title}`}>
         </textarea>
         <div className='card-body bg-light p-2'>
-          <textarea name="description" onChange={handleChange}>{formState.description}</textarea>
+          <textarea name="description" onChange={handleChange} value={`${formState.description}`}></textarea>
           <Button onClick={handleUpdateProject}>Update Project</Button>
         </div>
 

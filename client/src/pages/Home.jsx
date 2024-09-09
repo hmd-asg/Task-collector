@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ME);
-  const projects = data?.me.projects || [];
+  console.log(data);
+  const projects = data?.me?.projects || [];
   const navigate = useNavigate();
 
   useEffect(() => {
