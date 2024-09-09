@@ -3,15 +3,15 @@ import { Card, Form } from 'react-bootstrap';
 
 const getOptions = (currentStatus) => {
     switch (currentStatus) {
-        case 'not-started':
+        case 'not started':
             return [
-                { value: 'not-started', label: 'Not Started' },
-                { value: 'in-progress', label: 'In Progress' }
+                { value: 'not started', label: 'Not Started' },
+                { value: 'in progress', label: 'In Progress' }
             ];
         case 'in-progress':
             return [
-                { value: 'not-started', label: 'Not Started' },
-                { value: 'in-progress', label: 'In Progress' },
+                { value: 'not started', label: 'Not Started' },
+                { value: 'in progress', label: 'In Progress' },
                 { value: 'completed', label: 'Completed' }
             ];
         case 'completed':
@@ -26,12 +26,12 @@ const getOptions = (currentStatus) => {
 const TaskList = ({ tasks, status, onStatusChange }) => {
     return (
         <>
-            <h2>{status === 'not-started' ? 'Not Started' : 'In Progress'}</h2>
+            <h2>{status === 'not started' ? 'Not Started' : 'In Progress'}</h2>
             <div className="d-grid gap-3">
                 {tasks.filter(task => task.status === status).map(task => (
                     <Card key={task._id} className="task-card">
                         <Card.Body>
-                            <div>{task.description}</div>
+                            <Card.Text>{task.description}</Card.Text>
                             <Form.Select
                                 value={task.status}
                                 onChange={(e) => onStatusChange(task._id, e.target.value)}
