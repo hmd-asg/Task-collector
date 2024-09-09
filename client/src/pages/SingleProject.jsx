@@ -1,11 +1,13 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
-
-const SingleProject = (project) => {
+import { UPDATE_PROJECT } from "../utils/mutations";
+const SingleProject = () => {
+  const { projectId } = useParams();
   const { loading, data } = useQuery(QUERY_SINGLE_PROJECT, {
-    variables: { projectId: project._id },
+    variables: { projectId: projectId },
   });
 
   const project = data?.project || {};
@@ -15,12 +17,19 @@ const SingleProject = (project) => {
     users: project.users,
     tasks: project.tasks,
   });
-
+  const [updateProject, { error }] = useMutation(UPDATE_PROJECT)
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
-const handleUpdateProject = () => {};
+const handleUpdateProject = async (event) => {
+  event.preventDefault();
+  try {
+    await updateProject({ variables: {projectId, ...formState}});
+  } catch (err) {
+    console.error(err);
+  }
+};
   if (loading) {
     return <div>Loading...</div>;
   }

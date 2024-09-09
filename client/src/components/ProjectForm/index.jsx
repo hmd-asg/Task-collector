@@ -55,6 +55,7 @@ const ProjectForm = () => {
             Add Project
           </button>
         </div>
+
         {error && (
           <div className='col-12 my-3 bg-danger text-white p-3'>
             {error.message}
