@@ -13,7 +13,7 @@ const resolvers = {
       return Project.find().populate('tasks');
     },
     project: async (parent, { projectId }) => {
-      return Project.findOne({ projectId }).populate('tasks');
+      return Project.findOne({ _id: projectId }).populate('tasks').populate("users");
     },
     me: async (parent, args, context) => {
       if (context.user) {
@@ -122,13 +122,11 @@ const resolvers = {
     },
     updateProject: async (
       parent,
-      { projectId, title, description, users, tasks }
+      { projectId, title, description }
     ) => {
       const updateFields = {};
       if (title) updateFields.title = title;
       if (description) updateFields.description = description;
-      if (users) updateFields.users = users;
-      if (tasks) updateFields.tasks = tasks;
 
       return Project.findOneAndUpdate(
         { _id: projectId },

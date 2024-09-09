@@ -6,7 +6,7 @@ import { QUERY_ME } from "../utils/queries";
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ME);
-  const projects = data?.meProjects.projects || [];
+  const projects = data?.me.projects || [];
   // console.log(Auth.getProfile());
   console.log(data);
 

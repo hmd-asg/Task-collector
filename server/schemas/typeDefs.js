@@ -43,7 +43,7 @@ const typeDefs = `
     removeProject(projectId: ID!): Project
     removeTask(taskId: ID!): Task
     updateTask(taskId: ID!, description: String, status: String): Task
-    updateProject(projectId: ID!, title: String, description: String, users: [ID], tasks: [ID]): Project
+    updateProject(projectId: ID!, title: String, description: String): Project
   }
 `;
 

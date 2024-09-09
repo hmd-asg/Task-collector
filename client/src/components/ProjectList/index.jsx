@@ -23,8 +23,8 @@ const ProjectList = ({ projects }) => {
               </ul> */}
             </div>
             <div className="card-footer d-flex">
-              <button type="button" class="btn btn-primary"><i class="bi bi-plus"></i>Edit</button>
-              <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</button>
+              <button type="button" className="btn btn-primary"><i className="bi bi-plus"></i>Edit</button>
+              <button type="button" className="btn btn-danger"><i className="bi bi-trash"></i>Delete</button>
               <Link
                 className='btn btn-primary btn-block btn-squared'
                 to={`/project/${project._id}`}
