@@ -19,6 +19,7 @@ const typeDefs = `
     _id: ID!
     description: String
     status: String!
+    assignedTo: User
   }
 
   type Auth {
@@ -39,7 +40,7 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
     addProject(title: String!, description: String): Project
     addTask(projectId: ID!, description: String!): Project
-    assignTask(userId: ID!, task: ID!): User
+    assignTask(userId: ID!, task: ID!): Task
     removeProject(projectId: ID!): Project
     removeTask(taskId: ID!): Task
     updateTask(taskId: ID!, description: String, status: String): Task
