@@ -9,6 +9,10 @@ const taskSchema = new Schema({
     type: String,
     enum: ["not started", "in progress", "completed"],
     default: "not started",
+  },
+  assignedTo: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   }
 }, { timestamps: true });
 
