@@ -70,7 +70,7 @@ const Login = (props) => {
                 />
                 <input
                   className="form-input my-3"
-                  placeholder="******"
+                  placeholder="Enter your password"
                   name="password"
                   type="password"
                   value={formState.password}

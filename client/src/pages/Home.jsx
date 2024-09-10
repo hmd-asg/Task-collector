@@ -7,9 +7,9 @@ import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
 
+
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ME);
-  console.log(data);
   const projects = data?.me?.projects || [];
   const navigate = useNavigate();
 

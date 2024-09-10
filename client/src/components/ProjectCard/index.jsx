@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
+import { REMOVE_PROJECT } from "../../utils/mutations.js";
+import { useMutation } from "@apollo/client";
 
 const ProjectCard = ({ project }) => {
+  const [removeProject, { error }] = useMutation(REMOVE_PROJECT);
+
+  const handleDeleteProject = async () => {
+    try {
+      console.log(project._id);
+      await removeProject({ variable: { projectId: project._id } })
+
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
   return (
     <>
 
@@ -18,7 +31,7 @@ const ProjectCard = ({ project }) => {
           </ul>
         </div>
         <div className="card-footer d-flex">
-          <button type="button" className="btn btn-danger me-2"><i className="bi bi-trash"></i>Delete</button>
+          <button type="button" className="btn btn-danger me-2" onClick={handleDeleteProject}><i className="bi bi-trash"></i>Delete</button>
           <Link
             className='btn btn-primary'
             to={`/project/${project._id}`}
