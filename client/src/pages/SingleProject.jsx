@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
-import { ASSIGN_PROJECT, UPDATE_PROJECT } from "../utils/mutations";
+import { ASSIGN_PROJECT, UPDATE_PROJECT, ASSIGN_TASK } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
+import { Button } from "react-bootstrap";
 
 const SingleProject = () => {
   const { projectId } = useParams();
@@ -32,6 +33,7 @@ const SingleProject = () => {
   }, [data]);
 
   const [updateProject, { error }] = useMutation(UPDATE_PROJECT);
+  const [assignTask, { e }] = useMutation(ASSIGN_TASK);
   const [assignProject, { err }] = useMutation(ASSIGN_PROJECT, {
     refetchQueries: [{query: QUERY_SINGLE_PROJECT}],
   });
@@ -78,7 +80,7 @@ const SingleProject = () => {
     }
   };
 
-  if (loading || usersLoading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -126,7 +128,7 @@ const SingleProject = () => {
               onChange={(e) => setSelectedTaskId(e.target.value)}
             >
               <option value="">Select a task</option>
-              {formState.tasks.map((task) => (
+              {project.tasks.map((task) => (
                 <option key={task._id} value={task._id}>
                   {task.description}
                 </option>
@@ -142,7 +144,7 @@ const SingleProject = () => {
               disabled={!selectedTaskId}
             >
               <option value="">Select a user</option>
-              {users.map((user) => (
+              {project.users.map((user) => (
                 <option key={user._id} value={user._id}>
                   {user.username}
                 </option>
