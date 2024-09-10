@@ -154,7 +154,7 @@ const resolvers = {
     assignProject: async (parent, { username, projectId }) => {
 
       const user = await User.findOneAndUpdate(
-        {username: username },
+        { username: username },
         {
           $addToSet: {
             projects: projectId,
@@ -166,7 +166,7 @@ const resolvers = {
         }
       );
       return Project.findOneAndUpdate(
-        {_id: projectId },
+        { _id: projectId },
         {
           $addToSet: {
             users: user._id,
