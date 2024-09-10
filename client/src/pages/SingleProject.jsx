@@ -1,10 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { QUERY_SINGLE_PROJECT, QUERY_ME } from "../utils/queries";
-import { UPDATE_PROJECT } from "../utils/mutations";
+import { QUERY_SINGLE_PROJECT } from "../utils/queries";
+import { ASSIGN_PROJECT, UPDATE_PROJECT } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
-
 const SingleProject = () => {
   const { projectId } = useParams();
   const { loading, data } = useQuery(QUERY_SINGLE_PROJECT, {
@@ -28,8 +27,12 @@ const SingleProject = () => {
       tasks: project.tasks,
     });
   }, [data]);
-  
-  const [updateProject] = useMutation(UPDATE_PROJECT);
+
+  const [updateProject, { error }] = useMutation(UPDATE_PROJECT);
+  const [assignProject, { err }] = useMutation(ASSIGN_PROJECT, {
+    refetchQueries: [{query: QUERY_SINGLE_PROJECT}],
+  });
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -48,6 +51,17 @@ const SingleProject = () => {
       console.error(err);
     }
   };
+  const handleAddUser = async (event) => {
+    event.preventDefault();
+    console.log(formState);
+    const username = formState.new_user;
+    try {
+      await assignProject({ variables: {username, projectId}});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -56,6 +70,18 @@ const SingleProject = () => {
   return (
     <>
       <div className="my-3">
+        <h3>Project Members</h3>
+        {project.users.map( user => <p key={user._id}>{user.username}</p>)}
+        <textarea
+          className="card-body bg-light"
+          name="new_user"
+          placeholder="Add new user"
+          onChange={handleChange}
+        >
+        </textarea>
+        <Button onClick={handleAddUser}>Add member</Button>
+      </div>
+      <div className='my-3'>
         <textarea
           className="card-header bg-dark text-light p-2 m-0"
           name="title"
