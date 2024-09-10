@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { QUERY_SINGLE_PROJECT } from "../utils/queries";
+import { QUERY_SINGLE_PROJECT, QUERY_ME } from "../utils/queries";
 import { UPDATE_PROJECT } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
 
@@ -12,7 +12,6 @@ const SingleProject = () => {
   });
 
   const project = data?.project || {};
-
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
@@ -22,16 +21,14 @@ const SingleProject = () => {
 
   // Using useEffect to update formState when project data is loaded
   useEffect(() => {
-    if (data) {
-      setFormState({
-        title: project.title,
-        description: project.description,
-        users: project.users,
-        tasks: project.tasks,
-      });
-    }
-  }, [data]); // Ensure this runs only when `data` changes
-
+    setFormState({
+      title: project.title,
+      description: project.description,
+      users: project.users,
+      tasks: project.tasks,
+    });
+  }, [data]);
+  
   const [updateProject] = useMutation(UPDATE_PROJECT);
 
   const handleChange = (event) => {
