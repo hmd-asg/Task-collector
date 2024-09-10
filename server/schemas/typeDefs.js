@@ -17,7 +17,7 @@ const typeDefs = `
 
   type Task {
     _id: ID!
-    description: String!
+    description: String
     status: String!
   }
 

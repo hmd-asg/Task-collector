@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
@@ -19,6 +18,7 @@ const SingleProject = () => {
     tasks: project.tasks,
   });
 
+  // Using useEffect to update formState when project data is loaded
   useEffect(() => {
     setFormState({
       title: project.title,
@@ -33,6 +33,7 @@ const SingleProject = () => {
     refetchQueries: [{query: QUERY_SINGLE_PROJECT}],
   });
 
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
@@ -40,11 +41,11 @@ const SingleProject = () => {
 
   const handleUpdateProject = async (event) => {
     event.preventDefault();
-    console.log(formState);
-    const title = formState.title;
-    const description = formState.description;
+    const { title, description } = formState;
     try {
-      const newProject = await updateProject({ variables: { projectId, title, description } });
+      const newProject = await updateProject({
+        variables: { projectId, title, description },
+      });
       console.log(newProject);
     } catch (err) {
       console.error(err);
@@ -60,6 +61,7 @@ const SingleProject = () => {
       console.log(err);
     }
   };
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -81,24 +83,22 @@ const SingleProject = () => {
       </div>
       <div className='my-3'>
         <textarea
-          className='card-header bg-light p-2 m-0'
-          name='title'
+          className="card-header bg-dark text-light p-2 m-0"
+          name="title"
           value={formState.title}
           onChange={handleChange}
-        >
-        </textarea>
-        <div className='card-body bg-light p-2'>
+        ></textarea>
+        <div className="card-body bg-light p-2">
           <textarea
-            name='description'
+            name="description"
             value={formState.description}
             onChange={handleChange}
-          >
-          </textarea>
-          <Button onClick={handleUpdateProject}>Update Project</Button>
+          ></textarea>
+          <button onClick={handleUpdateProject}>Update Project</button>
         </div>
 
         {/* Include TaskForm here */}
-        <div className='my-5'>
+        <div className="my-5">
           <TaskForm />
         </div>
       </div>
