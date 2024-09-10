@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { QUERY_SINGLE_PROJECT } from "../utils/queries";
+import { QUERY_SINGLE_PROJECT, QUERY_ME } from "../utils/queries";
 import { UPDATE_PROJECT } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
 
@@ -13,7 +13,7 @@ const SingleProject = () => {
   });
 
   const project = data?.project || {};
-  console.log(data);
+ console.log(project);
   const [formState, setFormState] = useState({
     title: project.title,
     description: project.description,
@@ -28,7 +28,7 @@ const SingleProject = () => {
       users: project.users,
       tasks: project.tasks,
     });
-  }, [project]);
+  }, [data]);
 
   const [updateProject, { error }] = useMutation(UPDATE_PROJECT);
   
@@ -78,16 +78,6 @@ const handleUpdateProject = async (event) => {
         <div className='my-5'>
           <TaskForm />
         </div>
-        
-        {/* Optional: You can uncomment and adjust these sections if needed */}
-        {/* 
-        <div className='my-5'>
-          <CommentList comments={project.comments} projectId={project._id} />
-        </div>
-        <div className='m-3 p-4' style={{ border: "1px dotted #1a1a1a" }}>
-          <CommentForm projectId={project._id} />
-        </div>
-        */}
       </div>
     </>
   );
