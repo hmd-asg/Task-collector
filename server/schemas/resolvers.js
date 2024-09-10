@@ -70,7 +70,8 @@ const resolvers = {
           { _id: context.user._id },
           { $addToSet: { projects: newProject._id } },
           { new: true }
-        )
+
+        );
         return await Project.findOneAndUpdate(
           { _id: newProject._id },
           { $addToSet: { users: context.user._id } },
@@ -82,7 +83,8 @@ const resolvers = {
     addTask: async (parent, { projectId, description }, context) => {
       if (context.user) {
         const task = await Task.create({
-          description
+          description,
+          status: "not started", // Ensure status is set
         });
         return Project.findOneAndUpdate(
           { _id: projectId },
@@ -95,17 +97,32 @@ const resolvers = {
             new: true,
             runValidators: true,
           }
-        );
+        ).populate('tasks'); // Populate tasks to return updated project
       }
       throw AuthenticationError;
     },
     assignTask: async (parent, { userId, task }, context) => {
       if (context.user) {
-        return User.findOneAndUpdate(
+        // Assign the task to the user
+        await User.findOneAndUpdate(
           { _id: userId },
           {
             $addToSet: {
-              tasks: task._id,
+              tasks: task,
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+
+        // Assign the user to the task
+        return Task.findOneAndUpdate(
+          { _id: task },
+          {
+            $set: {
+              assignedTo: userId,
             },
           },
           {
@@ -137,10 +154,7 @@ const resolvers = {
         { new: true }
       );
     },
-    updateProject: async (
-      parent,
-      { projectId, title, description }
-    ) => {
+    updateProject: async (parent, { projectId, title, description }) => {
       const updateFields = {};
       if (title) updateFields.title = title;
       if (description) updateFields.description = description;
@@ -151,6 +165,33 @@ const resolvers = {
         { new: true }
       );
     },
+    assignProject: async (parent, { username, projectId }) => {
+
+      const user = await User.findOneAndUpdate(
+        {username: username },
+        {
+          $addToSet: {
+            projects: projectId,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      return Project.findOneAndUpdate(
+        {_id: projectId },
+        {
+          $addToSet: {
+            users: user._id,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+    }
   },
 };
 

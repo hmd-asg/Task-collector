@@ -94,7 +94,19 @@ mutation updateTask($taskId: ID!, $description: String, $status: String) {
   }
 }
 `;
-
+export const ASSIGN_PROJECT = gql`
+  mutation assignProject($username: String!, $projectId: ID!) {
+  assignProject(username: $username, projectId: $projectId) {
+    _id
+    title
+    description
+    users {
+      username
+      _id
+    }
+  }
+}
+`;
 export const UPDATE_PROJECT = gql`
   mutation updateProject($projectId: ID!, $title: String, $description: String) {
   updateProject(projectId: $projectId, title: $title, description: $description) {

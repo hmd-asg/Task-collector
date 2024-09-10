@@ -1,9 +1,8 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
-import { UPDATE_PROJECT } from "../utils/mutations";
+import { ASSIGN_PROJECT, UPDATE_PROJECT } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
 
 const SingleProject = () => {
@@ -13,13 +12,15 @@ const SingleProject = () => {
   });
 
   const project = data?.project || {};
-  console.log(data);
   const [formState, setFormState] = useState({
-    title: project.title,
-    description: project.description,
-    users: project.users,
-    tasks: project.tasks,
+    title: project.title || "",
+    description: project.description || "",
+    users: project.users || [],
+    tasks: project.tasks || [],
   });
+
+  const [selectedTaskId, setSelectedTaskId] = useState(null); // Track selected task
+  const [selectedUserId, setSelectedUserId] = useState(""); // Track selected user
 
   useEffect(() => {
     setFormState({
@@ -28,66 +29,133 @@ const SingleProject = () => {
       users: project.users,
       tasks: project.tasks,
     });
-  }, [project]);
+  }, [data]);
 
   const [updateProject, { error }] = useMutation(UPDATE_PROJECT);
-  
+  const [assignProject, { err }] = useMutation(ASSIGN_PROJECT, {
+    refetchQueries: [{query: QUERY_SINGLE_PROJECT}],
+  });
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
 
-const handleUpdateProject = async (event) => {
-  event.preventDefault();
-  console.log(formState);
-  const title = formState.title;
-  const description = formState.description;
-  try {
-    const newProject = await updateProject({ variables: {projectId, title, description}});
-    console.log(newProject);
-  } catch (err) {
-    console.error(err);
-  }
-};
+  const handleUpdateProject = async (event) => {
+    event.preventDefault();
+    const { title, description } = formState;
+    try {
+      const newProject = await updateProject({
+        variables: { projectId, title, description },
+      });
+      console.log(newProject);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const handleAddUser = async (event) => {
+    event.preventDefault();
+    console.log(formState);
+    const username = formState.new_user;
+    try {
+      await assignProject({ variables: {username, projectId}});
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  if (loading) {
+
+  const handleAssignTask = async () => {
+    try {
+      await assignTask({
+        variables: { userId: selectedUserId, task: selectedTaskId },
+      });
+      console.log("Task assigned successfully");
+      setSelectedTaskId(null);
+      setSelectedUserId("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (loading || usersLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
-      <div className='my-3'>
-        <textarea 
-          className='card-header bg-dark text-light p-2 m-0'
-          name='title'
-          value={formState.title}
+      <div className="my-3">
+        <h3>Project Members</h3>
+        {project.users.map( user => <p key={user._id}>{user.username}</p>)}
+        <textarea
+          className="card-body bg-light"
+          name="new_user"
+          placeholder="Add new user"
           onChange={handleChange}
         >
         </textarea>
-        <div className='card-body bg-light p-2'>
-          <textarea 
-            name='description'
+        <Button onClick={handleAddUser}>Add member</Button>
+      </div>
+      <div className='my-3'>
+        <textarea
+          className="card-header bg-dark text-light p-2 m-0"
+          name="title"
+          value={formState.title}
+          onChange={handleChange}
+        ></textarea>
+        <div className="card-body bg-light p-2">
+          <textarea
+            name="description"
             value={formState.description}
             onChange={handleChange}
-          >
-          </textarea>
-          <Button onClick={handleUpdateProject}>Update Project</Button>
+          ></textarea>
+          <button onClick={handleUpdateProject}>Update Project</button>
         </div>
 
-        {/* Include TaskForm here */}
-        <div className='my-5'>
+        <div className="my-5">
           <TaskForm />
         </div>
-        
-        {/* Optional: You can uncomment and adjust these sections if needed */}
-        {/* 
-        <div className='my-5'>
-          <CommentList comments={project.comments} projectId={project._id} />
+
+        <div className="my-5">
+          <h3>Assign Task:</h3>
+          <div>
+            <label htmlFor="task-select">Select Task: </label>
+            <select
+              id="task-select"
+              value={selectedTaskId || ""}
+              onChange={(e) => setSelectedTaskId(e.target.value)}
+            >
+              <option value="">Select a task</option>
+              {formState.tasks.map((task) => (
+                <option key={task._id} value={task._id}>
+                  {task.description}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="user-select">Assign to User: </label>
+            <select
+              id="user-select"
+              value={selectedUserId || ""}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+              disabled={!selectedTaskId}
+            >
+              <option value="">Select a user</option>
+              {users.map((user) => (
+                <option key={user._id} value={user._id}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            onClick={handleAssignTask}
+            disabled={!selectedTaskId || !selectedUserId}
+          >
+            Assign Task
+          </button>
         </div>
-        <div className='m-3 p-4' style={{ border: "1px dotted #1a1a1a" }}>
-          <CommentForm projectId={project._id} />
-        </div>
-        */}
       </div>
     </>
   );
