@@ -2,25 +2,21 @@ import React from 'react';
 import { Card, Form } from 'react-bootstrap';
 
 const getOptions = (currentStatus) => {
-    switch (currentStatus) {
-        case 'not started':
-            return [
-                { value: 'not started', label: 'Not Started' },
-                { value: 'in progress', label: 'In Progress' }
-            ];
-        case 'in-progress':
-            return [
-                { value: 'not started', label: 'Not Started' },
-                { value: 'in progress', label: 'In Progress' },
-                { value: 'completed', label: 'Completed' }
-            ];
-        case 'completed':
-            return [
-                { value: 'completed', label: 'Completed' }
-            ];
-        default:
-            return [];
+    const allOptions = [
+        { value: 'not started', label: 'Not Started' },
+        { value: 'in progress', label: 'In Progress' },
+        { value: 'completed', label: 'Completed' }
+    ];
+
+    if (currentStatus === 'in progress') {
+        return allOptions;
     }
+
+    if (currentStatus === 'completed') {
+        return [{ value: 'completed', label: 'Completed' }];
+    }
+
+    return allOptions.filter(option => option.value !== 'completed');
 };
 
 const TaskList = ({ tasks, status, onStatusChange }) => {
@@ -31,7 +27,7 @@ const TaskList = ({ tasks, status, onStatusChange }) => {
                 {tasks.filter(task => task.status === status).map(task => (
                     <Card key={task._id} className="task-card">
                         <Card.Body>
-                            <Card.Text>{task.description}</Card.Text>
+                            <div>{task.description}</div>
                             <Form.Select
                                 value={task.status}
                                 onChange={(e) => onStatusChange(task._id, e.target.value)}
@@ -51,3 +47,4 @@ const TaskList = ({ tasks, status, onStatusChange }) => {
 };
 
 export default TaskList;
+

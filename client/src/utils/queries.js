@@ -69,13 +69,14 @@ export const QUERY_SINGLE_PROJECT = gql`
   }
 }
 `;
-export const UPDATE_TASK_STATUS = gql`
-    mutation UpdateTaskStatus($id: ID!, $status: String!) {
-        updateTaskStatus(id: $id, status: $status) {
-            _id
-            status
-        }
+export const UPDATE_TASK = gql`
+  mutation updateTask($taskId: ID!, $description: String, $status: String) {
+    updateTask(taskId: $taskId, description: $description, status: $status) {
+      _id
+      description
+      status
     }
+  }
 `;
 
 
