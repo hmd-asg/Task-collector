@@ -53,8 +53,6 @@ export const ASSIGN_TASK = gql`
     assignTask(userId: $userId, task: $task) {
       username
       tasks {
-        description
-        status
         _id
       }
       _id
