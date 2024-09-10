@@ -1,5 +1,6 @@
 const { User, Project, Task } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -35,6 +36,16 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    updateUser: async (parent, { username, email, password }, context) => {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const newUser = await User.findOneAndUpdate({ _id: context.user._id }, {
+        $set: { username: username, email: email, password: hashedPassword }
+      },
+        { new: true }
+      );
+      return newUser;
+    },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -53,19 +64,19 @@ const resolvers = {
       return { token, user };
     },
     addProject: async (parent, { title, description }, context) => {
-      const newProject = await Project.create({title, description});
+      const newProject = await Project.create({ title, description });
       if (context.user) {
         await User.findByIdAndUpdate(
           { _id: context.user._id },
-        { $addToSet: { projects: newProject._id }},
-        { new: true }
+          { $addToSet: { projects: newProject._id } },
+          { new: true }
         )
-      return await Project.findOneAndUpdate(
-        { _id: newProject._id },
-        { $addToSet: { users: context.user._id }},
-        { new: true }
-      );
-    }
+        return await Project.findOneAndUpdate(
+          { _id: newProject._id },
+          { $addToSet: { users: context.user._id } },
+          { new: true }
+        );
+      }
       return newProject;
     },
     addTask: async (parent, { projectId, description }, context) => {
@@ -104,7 +115,7 @@ const resolvers = {
         );
       }
       throw AuthenticationError;
-    }, 
+    },
     removeProject: async (parent, { projectId }, context) => {
       const project = await Project.findOneAndDelete({
         _id: projectId,

@@ -13,7 +13,8 @@ const Header = () => {
     <header className='d-flex justify-content-between bg-primary text-light mb-4 p-3'>
       <div>
         <Link className='text-decoration-none text-light' to='/'>
-          <h1 className='m-0'>Task Collector</h1>
+          {/* <h1 className='m-0'>Task Collector</h1> */}
+          <img src="./src/assets/logo.png" alt="logo.png" style={{ maxWidth: '130px', borderRadius: '5px' }} />
         </Link>
       </div>
       <div>
@@ -25,7 +26,7 @@ const Header = () => {
             <Link className='btn btn-lg btn-info m-2' to='/my-tasks'>
               Tasks
             </Link>
-            <Link className='btn btn-lg btn-info m-2' to='/me'>
+            <Link className='btn btn-lg btn-info m-2' to='/profile'>
               {Auth.getProfile().data.username}
             </Link>
             <button className='btn btn-lg btn-info m-2' onClick={logout}>
