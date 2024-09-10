@@ -46,6 +46,7 @@ function Profile() {
 
     return (
         <main className="flex-row justify-center mb-4 w-50 mx-auto">
+            <div>It’s time to give your profile a little refresh. Whether you’re sprucing up your email, switching up your username, or giving your password a makeover, you’re in the right place!</div>
             <div className="card">
                 <h4 className="card-header text-center p-2">Update</h4>
                 <div className="card-body">
