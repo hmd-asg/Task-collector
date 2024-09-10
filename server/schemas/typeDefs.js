@@ -45,6 +45,7 @@ const typeDefs = `
     removeTask(taskId: ID!): Task
     updateTask(taskId: ID!, description: String, status: String): Task
     updateProject(projectId: ID!, title: String, description: String): Project
+    assignProject(username: String!, projectId: ID!): Project
   }
 `;
 

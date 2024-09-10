@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_SINGLE_PROJECT, QUERY_USERS } from "../utils/queries";
-import { UPDATE_PROJECT, ASSIGN_TASK } from "../utils/mutations";
+import { QUERY_SINGLE_PROJECT } from "../utils/queries";
+import { ASSIGN_PROJECT, UPDATE_PROJECT } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
 
 const SingleProject = () => {
@@ -11,11 +11,7 @@ const SingleProject = () => {
     variables: { projectId: projectId },
   });
 
-  const { data: usersData, loading: usersLoading } = useQuery(QUERY_USERS); // Fetch all users
-  const users = usersData?.users || [];
-
   const project = data?.project || {};
-
   const [formState, setFormState] = useState({
     title: project.title || "",
     description: project.description || "",
@@ -27,18 +23,18 @@ const SingleProject = () => {
   const [selectedUserId, setSelectedUserId] = useState(""); // Track selected user
 
   useEffect(() => {
-    if (data) {
-      setFormState({
-        title: project.title || "",
-        description: project.description || "",
-        users: project.users || [],
-        tasks: project.tasks || [],
-      });
-    }
+    setFormState({
+      title: project.title,
+      description: project.description,
+      users: project.users,
+      tasks: project.tasks,
+    });
   }, [data]);
 
-  const [updateProject] = useMutation(UPDATE_PROJECT);
-  const [assignTask] = useMutation(ASSIGN_TASK);
+  const [updateProject, { error }] = useMutation(UPDATE_PROJECT);
+  const [assignProject, { err }] = useMutation(ASSIGN_PROJECT, {
+    refetchQueries: [{query: QUERY_SINGLE_PROJECT}],
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -57,6 +53,17 @@ const SingleProject = () => {
       console.error(err);
     }
   };
+  const handleAddUser = async (event) => {
+    event.preventDefault();
+    console.log(formState);
+    const username = formState.new_user;
+    try {
+      await assignProject({ variables: {username, projectId}});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   const handleAssignTask = async () => {
     try {
@@ -78,6 +85,18 @@ const SingleProject = () => {
   return (
     <>
       <div className="my-3">
+        <h3>Project Members</h3>
+        {project.users.map( user => <p key={user._id}>{user.username}</p>)}
+        <textarea
+          className="card-body bg-light"
+          name="new_user"
+          placeholder="Add new user"
+          onChange={handleChange}
+        >
+        </textarea>
+        <Button onClick={handleAddUser}>Add member</Button>
+      </div>
+      <div className='my-3'>
         <textarea
           className="card-header bg-dark text-light p-2 m-0"
           name="title"

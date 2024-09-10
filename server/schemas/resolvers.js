@@ -153,6 +153,33 @@ const resolvers = {
         { new: true }
       );
     },
+    assignProject: async (parent, { username, projectId }) => {
+
+      const user = await User.findOneAndUpdate(
+        {username: username },
+        {
+          $addToSet: {
+            projects: projectId,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      return Project.findOneAndUpdate(
+        {_id: projectId },
+        {
+          $addToSet: {
+            users: user._id,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+    }
   },
 };
 
