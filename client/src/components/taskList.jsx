@@ -8,11 +8,15 @@ const getOptions = (currentStatus) => {
         { value: 'completed', label: 'Completed' }
     ];
 
+    if (currentStatus === 'in progress') {
+        return allOptions;
+    }
+
     if (currentStatus === 'completed') {
         return [{ value: 'completed', label: 'Completed' }];
     }
 
-    return allOptions;
+    return allOptions.filter(option => option.value !== 'completed');
 };
 
 const TaskList = ({ tasks, status, onStatusChange }) => {
@@ -43,3 +47,4 @@ const TaskList = ({ tasks, status, onStatusChange }) => {
 };
 
 export default TaskList;
+

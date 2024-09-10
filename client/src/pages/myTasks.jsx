@@ -18,7 +18,7 @@ const Tasks = () => {
         console.log("Updating task:", taskId, "to status:", newStatus);
         try {
             await updateTask({
-                variables: { id: taskId, status: newStatus },
+                variables: { taskId, status: newStatus },
                 update: (cache, { data: { updateTask } }) => {
                     console.log("Mutation response:", updateTask);
                     const { me } = cache.readQuery({ query: QUERY_ME });
@@ -63,3 +63,4 @@ const Tasks = () => {
 };
 
 export default Tasks;
+
