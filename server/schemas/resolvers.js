@@ -104,25 +104,11 @@ const resolvers = {
     assignTask: async (parent, { userId, task }, context) => {
       if (context.user) {
         // Assign the task to the user
-        await User.findOneAndUpdate(
+        return User.findOneAndUpdate(
           { _id: userId },
           {
             $addToSet: {
               tasks: task,
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-
-        // Assign the user to the task
-        return Task.findOneAndUpdate(
-          { _id: task },
-          {
-            $set: {
-              assignedTo: userId,
             },
           },
           {
