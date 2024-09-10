@@ -49,6 +49,9 @@ const Login = (props) => {
 
   return (
     <main className="flex-row justify-center mb-4 w-50 mx-auto">
+      <div className='my-3'>
+                Ready to transform chaos into clarity? Dive into the world of effortless organization where your projects and tasks come to life. Whether you’re juggling a thousand to-dos or just getting started, Task Collector is your go-to hub for seamless project management.
+              </div>
       <div className="card">
         <h4 className="card-header p-2 text-center">Login</h4>
         <div className="card-body">
@@ -85,7 +88,7 @@ const Login = (props) => {
                 </button>
               </form>
               <div className='my-3'>
-                Don't have an account <Link to='/signup'> Sign up</Link>
+                Don't have an account? <Link to='/signup'> Sign up</Link>
               </div>
             </>
           )}

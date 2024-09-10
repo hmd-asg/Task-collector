@@ -42,6 +42,7 @@ const Tasks = () => {
 
     return (
         <Container>
+            <div>Welcome to the Task Zone! Here’s where you can turn your to-dos into ta-das! Move tasks from Not Started to In Progress, and finally, to Completed, as you make progress like a pro. Dive in, get organized, and watch that list of yours shrink. Ready to tackle your tasks? Let’s get moving!</div>
             <Row>
                 <Col md={6}>
                     <TaskList
