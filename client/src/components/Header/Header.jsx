@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import Auth from "../../utils/auth";
+import './Header.css';
 
 const Header = () => {
   const location = useLocation();
@@ -24,16 +25,10 @@ const Header = () => {
       <div>
         {!isAuthPage && Auth.loggedIn() ? (
           <>
-            <Link className="btn btn-lg btn-info m-2" to="/">
-              Dashboard
-            </Link>
-            <Link className="btn btn-lg btn-info m-2" to="/my-tasks">
-              Tasks
-            </Link>
-            <Link className="btn btn-lg btn-info m-2" to="/me">
-              {Auth.getProfile().data.username}
-            </Link>
-            <button className="btn btn-lg btn-info m-2" onClick={logout}>
+            <Link className="nav-link" to="/">Dashboard</Link>
+            <Link className="nav-link" to="/my-tasks">Tasks</Link>
+            <Link className="nav-link" to="/profile">Profile</Link>
+            <button className="effect effect-5" onClick={logout}>
               Logout
             </button>
           </>
