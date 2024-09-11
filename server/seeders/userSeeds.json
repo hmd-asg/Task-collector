@@ -1,52 +1,42 @@
 [
   {
-    "username": "Geralt of Rivia",
-    "email": "geralt@witchersguild.dev",
+    "username": "John McClane",
+    "email": "john@diehard.com",
     "password": "rootroot"
   },
   {
-    "username": "Yennefer of Vengerberg",
-    "email": "yennefer@witchersguild.dev",
+    "username": "Martin Riggs",
+    "email": "martin@lethalweapon.com",
     "password": "rootroot"
   },
   {
-    "username": "Ciri of Cintra",
-    "email": "ciri@witchersguild.dev",
+    "username": "James Bond",
+    "email": "james@007.com",
     "password": "rootroot"
   },
   {
-    "username": "Triss Merigold",
-    "email": "triss@witchersguild.dev",
+    "username": "Rambo",
+    "email": "rambo@firstblood.com",
     "password": "rootroot"
   },
   {
-    "username": "Dandelion",
-    "email": "dandelion@witchersguild.dev",
+    "username": "The Terminator",
+    "email": "arnold@terminator.com",
     "password": "rootroot"
   },
   {
-    "username": "Vesemir",
-    "email": "vesemir@witchersguild.dev",
+    "username": "Ethan Hunt",
+    "email": "ethan@missionimpossible.com",
     "password": "rootroot"
   },
   {
-    "username": "Zoltan Chivay",
-    "email": "zoltan@witchersguild.dev",
+    "username": "Mad Max",
+    "email": "madmax@wasteland.com",
     "password": "rootroot"
   },
   {
-    "username": "Regis",
-    "email": "regis@witchersguild.dev",
-    "password": "rootroot"
-  },
-  {
-    "username": "Emhyr var Emreis",
-    "email": "emhyr@witchersguild.dev",
-    "password": "rootroot"
-  },
-  {
-    "username": "Jaskier",
-    "email": "jaskier@witchersguild.dev",
+    "username": "Dutch",
+    "email": "dutch@predator.com",
     "password": "rootroot"
   }
 ]
