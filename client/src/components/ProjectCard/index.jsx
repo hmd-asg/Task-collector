@@ -27,8 +27,8 @@ const ProjectCard = ({ project }) => {
         </ul>
       </div>
       <div>
-        <button>Delete</button>
-        <Link to={`/project/${project._id}`}>Details</Link>
+      <button type="button" onClick={handleDelete}><i className="bi bi-trash"></i>Delete</button>
+        <Link to={`/project/${project._id}`}><i className="bi bi-info-circle"></i>Details</Link>
       </div>
     </div>
   );
