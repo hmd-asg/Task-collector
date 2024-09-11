@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
     const navigate = useNavigate();
     const { loading, data } = useQuery(QUERY_ME);
+    const [erroMessage, setErrorMessage] = useState(false);
     const [formState, setFormState] = useState({
         username: data?.me?.username || '',
         email: data?.me?.email || '',
@@ -34,8 +35,15 @@ function Profile() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { username, email, password } = formState;
-            await updateUser({ variables: { username, email, password } });
+            const { username, email, password, confirmPassword } = formState;
+            if (password !== confirmPassword) {
+                setErrorMessage(true);
+                return;
+            }
+            else {
+
+                await updateUser({ variables: { username, email, password } });
+            }
         } catch (err) {
             console.log(err);
         }
@@ -79,6 +87,7 @@ function Profile() {
                 </form>
 
                 {error && <div>{error.message}</div>}
+
             </div>
         </main>
     )

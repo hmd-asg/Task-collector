@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
 
+import { REMOVE_PROJECT } from "../../utils/mutations.js";
+import { useMutation } from "@apollo/client";
+
 const ProjectCard = ({ project }) => {
+  const [removeProject, { error }] = useMutation(REMOVE_PROJECT);
+  const handleDelete = async () => {
+    try {
+      console.log(project._id);
+      const deletedProject = await removeProject({ variables: { projectId: project._id } });
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
   return (
     <div>
       <h4>{project.title}</h4>
