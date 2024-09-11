@@ -20,18 +20,15 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="row">
-      <div className='my-3'>
-      Welcome to the Dashboard, the epicenter of your productivity universe! Here’s where the magic happens—create new projects, manage your existing ones, or explore the menus above to find even more awesome features. Your next great achievement is just a click away. Ready to make things happen? Let’s get started!
-              </div>
-      <div className='col-12 col-md-3 '>
+    <div>
+      <div>Welcome to the Dashboard, the epicenter of your productivity universe! Here’s where the magic happens—create new projects, manage your existing ones, or explore the menus above to find even more awesome features. Your next great achievement is just a click away. Ready to make things happen? Let’s get started!</div>
+      <div>
         <ProjectForm />
       </div>
-      <div className='row col-12 col-md-9 border border-dark ms-2'>
+      <div>
         {loading ? (<div>Loading...</div>) : (
           projects &&
           projects.map((project) => (<ProjectCard key={project._id} project={project} />))
-
         )}
       </div>
     </div>

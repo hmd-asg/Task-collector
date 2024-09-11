@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import App from "./App.jsx";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -8,8 +7,7 @@ import Login from "./pages/Login";
 import ErrorPage from "./pages/ErrorPage";
 import SingleProject from "./pages/SingleProject.jsx";
 import Tasks from './pages/myTasks';
-import Profile from './pages/Profile.jsx'
-
+import Profile from './pages/Profile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -36,12 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/my-tasks",
         element: <Tasks />,
-
       },
       {
         path: "/profile",
         element: <Profile />,
-
       },
     ],
   },
