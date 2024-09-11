@@ -1,126 +1,96 @@
 /* src/pages/Home.css */
-@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
 
 body {
   font-size: 100%;
   font-family: 'Source Sans Pro', sans-serif;
   color: #f1f1f1;
   background: #2c3e50; /* Default dark background */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .wrapper {
-  transition: background 0.2s ease;
-}
-
-.section {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  width: 100%;
   padding: 2rem;
 }
 
-.short {
-  height: calc(100vh / 3);
+.section {
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .title {
-  white-space: nowrap;
   font-weight: 100;
   font-size: 4vw;
   color: #ffffff;
   margin-bottom: 1rem;
 }
 
-a {
-  color: inherit;
+.project-list, .task-lists {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-/* Form styling */
 form {
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 2rem;
-  max-width: 400px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 2rem;
 }
 
-input {
-  border: 0;
-  outline: none;
-  box-shadow: none;
-  display: block;
-  height: 30px;
-  line-height: 30px;
-  padding: 8px 8px;
-  border-bottom: 1px solid rgba(59, 103, 155, 1);
-  width: 100%;
-  font-size: 12px;
-  margin-bottom: 1.5rem;
-  background: transparent;
-  color: rgba(81, 81, 81, 1);
-  transition: background-color 0.3s ease, color 0.3s ease;
+input, textarea {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 80%;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: #34495e; /* To ensure input fields are visible against the dark background */
+  color: #ffffff;
 }
 
-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.3) inset !important;
-  -webkit-text-fill-color: #fff !important;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-input:-moz-autofill {
-  background-color: rgba(255, 255, 255, 0.3) !important;
-  color: #fff !important;
-}
-
-/* Button styling */
 button {
   padding: 0.5rem 2rem;
   font-size: 1rem;
-  background-color: rgba(59, 103, 155, 1);
-  color: rgba(256, 256, 256, 0.7);
-  border: 0;
-  border-radius: 15px;
+  background-color: #2c3e50;
+  color: #fff;
+  border: none;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: #2980b9;
 }
 
-/* Task and Project list styling */
-.task-list,
 .project-list {
-  width: 100%;
-  max-width: 600px;
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 1.5rem;
-  margin: 1rem 0;
+  justify-content: center;
 }
 
-.task-list h2,
-.project-list h2 {
-  color: #ffffff;
-  font-size: 24px;
-  margin-bottom: 1rem;
-  text-align: center;
+.task-lists {
+  justify-content: center;
+}
+
+/* Ensure scrolling is possible */
+html, body {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.wrapper {
+  min-height: 100vh; /* Ensure the wrapper expands with content */
+}
+
+.section {
+  padding: 2rem;
 }

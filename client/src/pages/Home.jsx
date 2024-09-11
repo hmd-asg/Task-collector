@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import ProjectCard from "../components/ProjectCard";
 import ProjectForm from "../components/ProjectForm";
 import TaskForm from "../components/TaskForm";
-import TaskList from "../components/taskList";
+import TaskList from "../components/TaskList"; // Fixed import
 import { QUERY_ME } from "../utils/queries";
 import { useEffect } from "react";
 import Auth from "../utils/auth";
@@ -19,10 +19,10 @@ const Home = () => {
     if (!Auth.loggedIn()) {
       navigate('/login');
     }
-  }, [projects, tasks]);
+  }, [navigate]);
 
   return (
-    <div className="wrapper">
+    <>
       <div className="section" data-background-color="transparent">
         <h1 className="title">Welcome to the Dashboard</h1>
         <p>Your next great achievement is just a click away. Ready to make things happen? Let’s get started!</p>
@@ -35,7 +35,9 @@ const Home = () => {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            projects.map((project) => <ProjectCard key={project._id} project={project} />)
+            projects.map((project) => (
+              <ProjectCard key={project._id} project={project} />
+            ))
           )}
         </div>
       </div>
@@ -43,9 +45,9 @@ const Home = () => {
       <div className="section" data-background-color="#27ae60">
         <h2 className="title">Tasks</h2>
         <TaskForm />
-        <div className="task-list">
-          <TaskList tasks={tasks} status="not started" />
-          <TaskList tasks={tasks} status="in progress" />
+        <div className="task-lists">
+          <TaskList tasks={tasks.filter(task => task.status === 'not started')} status="Not Started" />
+          <TaskList tasks={tasks.filter(task => task.status === 'in progress')} status="In Progress" />
         </div>
       </div>
 
@@ -53,7 +55,7 @@ const Home = () => {
         <h2 className="title">Profile</h2>
         <p>Your profile details and settings will be here.</p>
       </div>
-    </div>
+    </>
   );
 };
 
