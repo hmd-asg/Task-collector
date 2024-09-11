@@ -45,7 +45,7 @@ const ProjectForm = () => {
         />
         <textarea
           name='description'
-          placeholder="Enter A project description"
+          placeholder="Enter a description"
           value={formState.description}
           className='form-input w-100 mt-4'
           style={{ lineHeight: "3.5", resize: "vertical" }}
