@@ -9,6 +9,7 @@ import { useMutation } from "@apollo/client";
 import { REMOVE_PROJECT } from "../utils/mutations.js"
 
 
+
 const Home = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const projects = data?.me?.projects || [];
@@ -31,6 +32,9 @@ const Home = () => {
 
   return (
     <div className="row">
+      <div className='my-3'>
+      Welcome to the Dashboard, the epicenter of your productivity universe! Here’s where the magic happens—create new projects, manage your existing ones, or explore the menus above to find even more awesome features. Your next great achievement is just a click away. Ready to make things happen? Let’s get started!
+              </div>
       <div className='col-12 col-md-3 '>
         <ProjectForm />
       </div>

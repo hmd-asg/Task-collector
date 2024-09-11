@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Profile() {
     const navigate = useNavigate();
     const { loading, data } = useQuery(QUERY_ME);
+    const [erroMessage, setErrorMessage] = useState(false);
 
     const [formState, setFormState] = useState({
         username: data?.me?.username || '',
@@ -37,8 +38,15 @@ function Profile() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { username, email, password } = formState;
-            await updateUser({ variables: { username, email, password } });
+            const { username, email, password, confirmPassword } = formState;
+            if (password !== confirmPassword) {
+                setErrorMessage(true);
+                return;
+            }
+            else {
+
+                await updateUser({ variables: { username, email, password } });
+            }
         } catch (err) {
             console.log(err);
         }
@@ -46,6 +54,7 @@ function Profile() {
 
     return (
         <main className="flex-row justify-center mb-4 w-50 mx-auto">
+            <div>It’s time to give your profile a little refresh. Whether you’re sprucing up your email, switching up your username, or giving your password a makeover, you’re in the right place!</div>
             <div className="card">
                 <h4 className="card-header text-center p-2">Update</h4>
                 <div className="card-body">
@@ -69,7 +78,7 @@ function Profile() {
                         />
                         <input
                             className="form-input my-3"
-                            placeholder="******"
+                            placeholder="Enter your new password"
                             name="password"
                             type="password"
                             value={formState.password}
@@ -77,7 +86,7 @@ function Profile() {
                         />
                         <input
                             className="form-input my-3"
-                            placeholder="******"
+                            placeholder="Confirm your password"
                             name="confirmPassword"
                             type="password"
                             value={formState.confirmPassword}
@@ -91,11 +100,17 @@ function Profile() {
                             Save
                         </button>
                     </form>
-
+                    {
+                        erroMessage && (
+                            <small className="my-3 p-3 text-danger">
+                                Passwords does not match
+                            </small>
+                        )
+                    }
                     {error && (
-                        <div className="my-3 p-3 bg-danger text-white">
+                        <small className="my-3 p-3 text-danger">
                             {error.message}
-                        </div>
+                        </small>
                     )}
                 </div>
             </div>

@@ -104,25 +104,11 @@ const resolvers = {
     assignTask: async (parent, { userId, task }, context) => {
       if (context.user) {
         // Assign the task to the user
-        await User.findOneAndUpdate(
+        return User.findOneAndUpdate(
           { _id: userId },
           {
             $addToSet: {
               tasks: task,
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-
-        // Assign the user to the task
-        return Task.findOneAndUpdate(
-          { _id: task },
-          {
-            $set: {
-              assignedTo: userId,
             },
           },
           {
@@ -168,7 +154,7 @@ const resolvers = {
     assignProject: async (parent, { username, projectId }) => {
 
       const user = await User.findOneAndUpdate(
-        {username: username },
+        { username: username },
         {
           $addToSet: {
             projects: projectId,
@@ -180,7 +166,7 @@ const resolvers = {
         }
       );
       return Project.findOneAndUpdate(
-        {_id: projectId },
+        { _id: projectId },
         {
           $addToSet: {
             users: user._id,

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { REMOVE_PROJECT } from "../../utils/mutations";
+
+import { REMOVE_PROJECT } from "../../utils/mutations.js";
 import { useMutation } from "@apollo/client";
 
 const ProjectCard = ({ project }) => {
@@ -10,6 +11,7 @@ const ProjectCard = ({ project }) => {
       const deletedProject = await removeProject({ variables: { projectId: project._id } });
     } catch (error) {
       console.log(error);
+
     }
   }
   return (
@@ -30,6 +32,7 @@ const ProjectCard = ({ project }) => {
         </div>
         <div className="card-footer d-flex">
           <button type="button" className="btn btn-danger me-2" onClick={handleDelete}><i className="bi bi-trash"></i> Delete</button>
+
           <Link
             className='btn btn-primary'
             to={`/project/${project._id}`}

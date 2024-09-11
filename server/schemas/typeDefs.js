@@ -41,7 +41,7 @@ const typeDefs = `
     login(email: String!, password: String!): Auth
     addProject(title: String!, description: String): Project
     addTask(projectId: ID!, description: String!): Project
-    assignTask(userId: ID!, task: ID!): Task
+    assignTask(userId: ID!, task: ID!): User
     removeProject(projectId: ID!): Project
     removeTask(taskId: ID!): Task
     updateTask(taskId: ID!, description: String, status: String): Task

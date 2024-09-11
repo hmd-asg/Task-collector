@@ -69,6 +69,8 @@ const SingleProject = () => {
 
   const handleAssignTask = async () => {
     try {
+      console.log(selectedTaskId);
+      console.log(selectedUserId);
       await assignTask({
         variables: { userId: selectedUserId, task: selectedTaskId },
       });
