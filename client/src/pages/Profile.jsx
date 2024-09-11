@@ -4,12 +4,12 @@ import { QUERY_ME } from '../utils/queries.js';
 import { UPDATE_USER } from '../utils/mutations.js';
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
-
+import './Profile.css'; // Import the CSS file for styling
 
 function Profile() {
     const navigate = useNavigate();
     const { loading, data } = useQuery(QUERY_ME);
-    const [erroMessage, setErrorMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(false);
     const [formState, setFormState] = useState({
         username: data?.me?.username || '',
         email: data?.me?.email || '',
@@ -39,23 +39,21 @@ function Profile() {
             if (password !== confirmPassword) {
                 setErrorMessage(true);
                 return;
-            }
-            else {
-
+            } else {
                 await updateUser({ variables: { username, email, password } });
             }
         } catch (err) {
             console.log(err);
         }
-    }
+    };
 
     return (
         <main>
-            <div>Update your profile</div>
-            <div>
-                <h4>Update</h4>
+            <div className="profile-form">
+                <h4>Update Your Profile</h4>
                 <form onSubmit={handleFormSubmit}>
                     <input
+                        className="form-input"
                         placeholder="Your username"
                         name="username"
                         type="text"
@@ -63,6 +61,7 @@ function Profile() {
                         onChange={handleChange}
                     />
                     <input
+                        className="form-input"
                         placeholder="Your email"
                         name="email"
                         type="email"
@@ -70,6 +69,7 @@ function Profile() {
                         onChange={handleChange}
                     />
                     <input
+                        className="form-input"
                         placeholder="******"
                         name="password"
                         type="password"
@@ -77,20 +77,20 @@ function Profile() {
                         onChange={handleChange}
                     />
                     <input
+                        className="form-input"
                         placeholder="******"
                         name="confirmPassword"
                         type="password"
                         value={formState.confirmPassword}
                         onChange={handleChange}
                     />
-                    <button type="submit">Save</button>
+                    <button className="btn-primary" type="submit">Save</button>
+                    {errorMessage && <div className="error-message">Passwords do not match.</div>}
+                    {error && <div className="error-message">{error.message}</div>}
                 </form>
-
-                {error && <div>{error.message}</div>}
-
             </div>
         </main>
-    )
+    );
 }
 
 export default Profile;

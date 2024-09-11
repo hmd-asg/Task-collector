@@ -3,7 +3,7 @@ import './LoadingScreen.css'; // Import the CSS for the animation
 
 const LoadingScreen = ({ onComplete }) => {
   useEffect(() => {
-    const animationDuration = 7000; // Duration of the animation in milliseconds
+    const animationDuration = 4000; // Duration of the animation in milliseconds
     const timeout = setTimeout(() => {
       onComplete();
     }, animationDuration);

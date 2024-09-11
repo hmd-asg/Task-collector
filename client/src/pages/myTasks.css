@@ -1,0 +1,91 @@
+/* MyTask.css */
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
+
+/* General form styling */
+.my-task-form {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem auto; /* Center the form */
+}
+
+.my-task-form h3 {
+  color: #ffffff;
+  font-size: 24px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* General input styles */
+.my-task-form .form-input {
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  padding: 8px 8px;
+  border-bottom: 1px solid rgba(59, 103, 155, 1);
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 1.5rem;
+  background: transparent;
+  color: rgba(81, 81, 81, 1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Placeholder styles */
+.my-task-form .form-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Handle autofill background */
+.my-task-form .form-input:-webkit-autofill,
+.my-task-form .form-input:-webkit-autofill:hover,
+.my-task-form .form-input:-webkit-autofill:focus,
+.my-task-form .form-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.3) inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Autofill override for Mozilla Firefox */
+.my-task-form .form-input:-moz-autofill {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  color: #fff !important;
+}
+
+/* General button styles */
+.my-task-form .btn-primary {
+  background-color: rgba(59, 103, 155, 1);
+  color: rgba(256, 256, 256, 0.7);
+  border: 0;
+  border-radius: 15px;
+  padding: 6.5px 21.5px;
+  width: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for the button */
+.my-task-form .btn-primary:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Error message styles */
+.my-task-form .error-message {
+  color: rgba(255, 0, 0, 1);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
