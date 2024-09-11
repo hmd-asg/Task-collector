@@ -5,11 +5,11 @@ import { UPDATE_USER } from '../utils/mutations.js';
 import Auth from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
+
 function Profile() {
     const navigate = useNavigate();
     const { loading, data } = useQuery(QUERY_ME);
     const [erroMessage, setErrorMessage] = useState(false);
-
     const [formState, setFormState] = useState({
         username: data?.me?.username || '',
         email: data?.me?.email || '',
@@ -29,12 +29,9 @@ function Profile() {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
-        setFormState({
-            ...formState,
-            [name]: value,
-        });
+        setFormState({ ...formState, [name]: value });
     };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -53,66 +50,44 @@ function Profile() {
     }
 
     return (
-        <main className="flex-row justify-center mb-4 w-50 mx-auto">
-            <div>It’s time to give your profile a little refresh. Whether you’re sprucing up your email, switching up your username, or giving your password a makeover, you’re in the right place!</div>
-            <div className="card">
-                <h4 className="card-header text-center p-2">Update</h4>
-                <div className="card-body">
+        <main>
+            <div>Update your profile</div>
+            <div>
+                <h4>Update</h4>
+                <form onSubmit={handleFormSubmit}>
+                    <input
+                        placeholder="Your username"
+                        name="username"
+                        type="text"
+                        value={formState.username}
+                        onChange={handleChange}
+                    />
+                    <input
+                        placeholder="Your email"
+                        name="email"
+                        type="email"
+                        value={formState.email}
+                        onChange={handleChange}
+                    />
+                    <input
+                        placeholder="******"
+                        name="password"
+                        type="password"
+                        value={formState.password}
+                        onChange={handleChange}
+                    />
+                    <input
+                        placeholder="******"
+                        name="confirmPassword"
+                        type="password"
+                        value={formState.confirmPassword}
+                        onChange={handleChange}
+                    />
+                    <button type="submit">Save</button>
+                </form>
 
-                    <form className='d-flex flex-column' onSubmit={handleFormSubmit}>
-                        <input
-                            className="form-input my-3"
-                            placeholder="Your username"
-                            name="username"
-                            type="text"
-                            value={formState.username}
-                            onChange={handleChange}
-                        />
-                        <input
-                            className="form-input my-3"
-                            placeholder="Your email"
-                            name="email"
-                            type="email"
-                            value={formState.email}
-                            onChange={handleChange}
-                        />
-                        <input
-                            className="form-input my-3"
-                            placeholder="Enter your new password"
-                            name="password"
-                            type="password"
-                            value={formState.password}
-                            onChange={handleChange}
-                        />
-                        <input
-                            className="form-input my-3"
-                            placeholder="Confirm your password"
-                            name="confirmPassword"
-                            type="password"
-                            value={formState.confirmPassword}
-                            onChange={handleChange}
-                        />
-                        <button
-                            className="btn btn-block btn-primary my-3"
-                            style={{ cursor: 'pointer' }}
-                            type="submit"
-                        >
-                            Save
-                        </button>
-                    </form>
-                    {
-                        erroMessage && (
-                            <small className="my-3 p-3 text-danger">
-                                Passwords does not match
-                            </small>
-                        )
-                    }
-                    {error && (
-                        <small className="my-3 p-3 text-danger">
-                            {error.message}
-                        </small>
-                    )}
-                </div>
+                {error && <div>{error.message}</div>}
+
             </div>
         </main>
     )

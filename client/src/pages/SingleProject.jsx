@@ -4,7 +4,6 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
 import { ASSIGN_PROJECT, UPDATE_PROJECT, ASSIGN_TASK } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
-import { Button } from "react-bootstrap";
 
 const SingleProject = () => {
   const { projectId } = useParams();
@@ -20,8 +19,8 @@ const SingleProject = () => {
     tasks: project.tasks || [],
   });
 
-  const [selectedTaskId, setSelectedTaskId] = useState(null); // Track selected task
-  const [selectedUserId, setSelectedUserId] = useState(""); // Track selected user
+  const [selectedTaskId, setSelectedTaskId] = useState(null); 
+  const [selectedUserId, setSelectedUserId] = useState(""); 
 
   useEffect(() => {
     setFormState({
@@ -55,9 +54,9 @@ const SingleProject = () => {
       console.error(err);
     }
   };
+
   const handleAddUser = async (event) => {
     event.preventDefault();
-    console.log(formState);
     const username = formState.new_user;
     try {
       await assignProject({ variables: {username, projectId}});
@@ -66,15 +65,11 @@ const SingleProject = () => {
     }
   };
 
-
   const handleAssignTask = async () => {
     try {
-      console.log(selectedTaskId);
-      console.log(selectedUserId);
       await assignTask({
         variables: { userId: selectedUserId, task: selectedTaskId },
       });
-      console.log("Task assigned successfully");
       setSelectedTaskId(null);
       setSelectedUserId("");
     } catch (err) {
@@ -88,44 +83,38 @@ const SingleProject = () => {
 
   return (
     <>
-      <div className="my-3">
+      <div>
         <h3>Project Members</h3>
         {project.users.map( user => <p key={user._id}>{user.username}</p>)}
         <textarea
-          className="card-body bg-light"
           name="new_user"
           placeholder="Add new user"
           onChange={handleChange}
-        >
-        </textarea>
-        <Button onClick={handleAddUser}>Add member</Button>
+        ></textarea>
+        <button onClick={handleAddUser}>Add member</button>
       </div>
-      <div className='my-3'>
+      <div>
         <textarea
-          className="card-header bg-dark text-light p-2 m-0"
           name="title"
           value={formState.title}
           onChange={handleChange}
         ></textarea>
-        <div className="card-body bg-light p-2">
-          <textarea
-            name="description"
-            value={formState.description}
-            onChange={handleChange}
-          ></textarea>
-          <button onClick={handleUpdateProject}>Update Project</button>
-        </div>
+        <textarea
+          name="description"
+          value={formState.description}
+          onChange={handleChange}
+        ></textarea>
+        <button onClick={handleUpdateProject}>Update Project</button>
 
-        <div className="my-5">
+        <div>
           <TaskForm />
         </div>
 
-        <div className="my-5">
+        <div>
           <h3>Assign Task:</h3>
           <div>
-            <label htmlFor="task-select">Select Task: </label>
+            <label>Select Task: </label>
             <select
-              id="task-select"
               value={selectedTaskId || ""}
               onChange={(e) => setSelectedTaskId(e.target.value)}
             >
@@ -138,9 +127,8 @@ const SingleProject = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="user-select">Assign to User: </label>
+            <label>Assign to User: </label>
             <select
-              id="user-select"
               value={selectedUserId || ""}
               onChange={(e) => setSelectedUserId(e.target.value)}
               disabled={!selectedTaskId}

@@ -1,7 +1,5 @@
 import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { Container, Row, Col } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { QUERY_ME, UPDATE_TASK } from "../utils/queries";
 import TaskList from '../components/taskList';
 
@@ -15,12 +13,10 @@ const Tasks = () => {
     const tasks = data?.me.tasks || [];
 
     const handleStatusChange = async (taskId, newStatus) => {
-        console.log("Updating task:", taskId, "to status:", newStatus);
         try {
             await updateTask({
                 variables: { taskId, status: newStatus },
                 update: (cache, { data: { updateTask } }) => {
-                    console.log("Mutation response:", updateTask);
                     const { me } = cache.readQuery({ query: QUERY_ME });
                     cache.writeQuery({
                         query: QUERY_ME,
@@ -41,27 +37,22 @@ const Tasks = () => {
     };
 
     return (
-        <Container>
-            <div>Welcome to the Task Zone! Here’s where you can turn your to-dos into ta-das! Move tasks from Not Started to In Progress, and finally, to Completed, as you make progress like a pro. Dive in, get organized, and watch that list of yours shrink. Ready to tackle your tasks? Let’s get moving!</div>
-            <Row>
-                <Col md={6}>
-                    <TaskList
-                        tasks={tasks}
-                        status="not started"
-                        onStatusChange={handleStatusChange}
-                    />
-                </Col>
-                <Col md={6}>
-                    <TaskList
-                        tasks={tasks}
-                        status="in progress"
-                        onStatusChange={handleStatusChange}
-                    />
-                </Col>
-            </Row>
-        </Container>
+        <div>
+            <div>Welcome to the Task Zone!</div>
+            <div>
+                <TaskList
+                    tasks={tasks}
+                    status="not started"
+                    onStatusChange={handleStatusChange}
+                />
+                <TaskList
+                    tasks={tasks}
+                    status="in progress"
+                    onStatusChange={handleStatusChange}
+                />
+            </div>
+        </div>
     );
 };
 
 export default Tasks;
-
