@@ -25,10 +25,16 @@ const Header = () => {
       <div>
         {!isAuthPage && Auth.loggedIn() ? (
           <>
-            <Link className="nav-link" to="/">Dashboard</Link>
-            <Link className="nav-link" to="/my-tasks">Tasks</Link>
-            <Link className="nav-link" to="/profile">Profile</Link>
-            <button className="effect effect-5" onClick={logout}>
+            <Link className="btn btn-lg btn-info m-2" to="/">
+              Dashboard
+            </Link>
+            <Link className="btn btn-lg btn-info m-2" to="/my-tasks">
+              Tasks
+            </Link>
+            <Link className="btn btn-lg btn-info m-2" to="/profile">
+              {Auth.getProfile().data.username}
+            </Link>
+            <button className="btn btn-lg btn-info m-2" onClick={logout}>
               Logout
             </button>
           </>
