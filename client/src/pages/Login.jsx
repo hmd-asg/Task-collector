@@ -46,53 +46,51 @@ const Login = (props) => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h4 className="card-header p-2 text-center">Login</h4>
-        <div className="card-body">
-          {data ? (
-            <p>
-              Success! You may now head <Link to="/">back to the homepage.</Link>
-            </p>
-          ) : (
-            <>
-              <form className="d-flex flex-column" onSubmit={handleFormSubmit}>
-                <input
-                  className="form-input my-3"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                <input
-                  className="form-input my-3"
-                  placeholder="Enter your password"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                <button
-                  className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
-                  type="submit"
-                >
-                  Login
-                </button>
-              </form>
-              <div className="my-3 text-center">
-                Don't have an account? <Link to="/signup">Sign up</Link>
-              </div>
-            </>
-          )}
-
-          {error && (
-            <div className="my-3 p-3 bg-danger text-white">
-              {error.message}
+    <div className="container">
+      <h4 className="card-header p-2 text-center">Login</h4>
+      <div className="card-body">
+        {data ? (
+          <p>
+            Success! You may now head <Link to="/">back to the homepage.</Link>
+          </p>
+        ) : (
+          <>
+            <form className="d-flex flex-column" onSubmit={handleFormSubmit}>
+              <input
+                className="form-input my-3"
+                placeholder="Your email"
+                name="email"
+                type="email"
+                value={formState.email}
+                onChange={handleChange}
+              />
+              <input
+                className="form-input my-3"
+                placeholder="Enter your password"
+                name="password"
+                type="password"
+                value={formState.password}
+                onChange={handleChange}
+              />
+              <button
+                className="btn btn-block btn-primary"
+                style={{ cursor: 'pointer' }}
+                type="submit"
+              >
+                Login
+              </button>
+            </form>
+            <div className="my-3 text-center">
+              Don't have an account? <Link to="/signup">Sign up</Link>
             </div>
-          )}
-        </div>
+          </>
+        )}
+
+        {error && (
+          <div className="my-3 p-3 bg-danger text-white">
+            {error.message}
+          </div>
+        )}
       </div>
     </div>
   );
