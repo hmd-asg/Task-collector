@@ -31,6 +31,7 @@ const ProjectForm = () => {
       <h3>Add Project:</h3>
       <form onSubmit={handleFormSubmit}>
         <input
+          className="my-2"
           type="text"
           name="title"
           placeholder="Enter a Project title"
@@ -38,12 +39,13 @@ const ProjectForm = () => {
           onChange={handleChange}
         />
         <textarea
+          className="my-2"
           name="description"
           placeholder="Enter a project description"
           value={formState.description}
           onChange={handleChange}
         ></textarea>
-        <button type="submit">Save</button>
+        <button className="my-2 btn btn-primary " type="submit">Save</button>
         {error && <div>{error.message}</div>}
       </form>
     </div>

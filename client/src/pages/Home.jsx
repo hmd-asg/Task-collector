@@ -32,7 +32,7 @@ const Home = () => {
 
   return (
     <div className="row">
-      <div className='col-12 col-md-3 '>
+      <div className='col-12 col-md-3 p-5'>
         <ProjectForm />
       </div>
       <div className='row justify-content-evenly col-12 col-md-9 border border-dark ms-2'>
