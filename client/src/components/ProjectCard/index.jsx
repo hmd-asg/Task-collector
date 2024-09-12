@@ -15,9 +15,9 @@ const ProjectCard = ({ project }) => {
     }
   }
   return (
-    <div>
-      <h4>{project.title}</h4>
-      <div>
+    <div className='card col-12 col-md-5 p-0 mx-2 my-2'>
+      <h4 className='card-header bg-primary p-2 m-0'>{project.title}</h4>
+      <div className='card-body bg-light p-2'>
         <p>{project.description}</p>
         <h5>Contributors:</h5>
         <ul>
@@ -26,9 +26,9 @@ const ProjectCard = ({ project }) => {
           ))}
         </ul>
       </div>
-      <div>
-      <button type="button" onClick={handleDelete}><i className="bi bi-trash"></i>Delete</button>
-        <Link to={`/project/${project._id}`}><i className="bi bi-info-circle"></i>Details</Link>
+      <div className="card-footer d-flex">
+      <button className="btn btn-danger me-2" type="button" onClick={handleDelete}><i className="bi bi-trash"></i>Delete</button>
+        <Link className='btn btn-primary' to={`/project/${project._id}`}><i className="bi bi-info-circle"></i>Details</Link>
       </div>
     </div>
   );
