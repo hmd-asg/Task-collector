@@ -31,15 +31,15 @@ const Home = () => {
   }, [projects]);
 
   return (
-    <div>
-      <div>Welcome to the Dashboard, the epicenter of your productivity universe! Here’s where the magic happens—create new projects, manage your existing ones, or explore the menus above to find even more awesome features. Your next great achievement is just a click away. Ready to make things happen? Let’s get started!</div>
-      <div>
+    <div className="row">
+      <div className='col-12 col-md-3 '>
         <ProjectForm />
       </div>
-      <div>
+      <div className='row justify-content-evenly col-12 col-md-9 border border-dark ms-2'>
         {loading ? (<div>Loading...</div>) : (
           projects &&
           projects.map((project) => (<ProjectCard key={project._id} project={project} />))
+
         )}
       </div>
     </div>
