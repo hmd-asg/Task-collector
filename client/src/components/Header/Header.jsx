@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import Auth from "../../utils/auth";
+import './Header.css';
 
 const Header = () => {
   const location = useLocation();

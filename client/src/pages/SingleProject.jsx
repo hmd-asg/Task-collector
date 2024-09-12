@@ -34,7 +34,7 @@ const SingleProject = () => {
   const [updateProject, { error }] = useMutation(UPDATE_PROJECT);
   const [assignTask, { e }] = useMutation(ASSIGN_TASK);
   const [assignProject, { err }] = useMutation(ASSIGN_PROJECT, {
-    refetchQueries: [{query: QUERY_SINGLE_PROJECT}],
+    refetchQueries: [{ query: QUERY_SINGLE_PROJECT }],
   });
 
   const handleChange = (event) => {
@@ -59,7 +59,7 @@ const SingleProject = () => {
     event.preventDefault();
     const username = formState.new_user;
     try {
-      await assignProject({ variables: {username, projectId}});
+      await assignProject({ variables: { username, projectId } });
     } catch (err) {
       console.log(err);
     }
@@ -83,70 +83,92 @@ const SingleProject = () => {
 
   return (
     <>
-      <div>
-        <h3>Project Members</h3>
-        {project.users.map( user => <p key={user._id}>{user.username}</p>)}
-        <textarea
-          name="new_user"
-          placeholder="Add new user"
-          onChange={handleChange}
-        ></textarea>
-        <button onClick={handleAddUser}>Add member</button>
-      </div>
-      <div>
-        <textarea
-          name="title"
-          value={formState.title}
-          onChange={handleChange}
-        ></textarea>
-        <textarea
-          name="description"
-          value={formState.description}
-          onChange={handleChange}
-        ></textarea>
-        <button onClick={handleUpdateProject}>Update Project</button>
-
-        <div>
-          <TaskForm />
-        </div>
-
-        <div>
-          <h3>Assign Task:</h3>
-          <div>
-            <label>Select Task: </label>
-            <select
-              value={selectedTaskId || ""}
-              onChange={(e) => setSelectedTaskId(e.target.value)}
-            >
-              <option value="">Select a task</option>
-              {project.tasks.map((task) => (
-                <option key={task._id} value={task._id}>
-                  {task.description}
-                </option>
-              ))}
-            </select>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6">
+            <div className="d-flex flex-column w-50 mx-auto  my-3">
+              <h3 style={{ color: "blue" }}>{formState.title}</h3>
+              <h6 className="text-info">Contributers : </h6>
+              {project.users.map(user => <p className="text-center" key={user._id}>{user.username}</p>)}
+              <input
+                type="text"
+                name="new_user"
+                placeholder="Add Contributer"
+                onChange={handleChange}
+              />
+              <Button className="mt-3" onClick={handleAddUser}>Add member</Button>
+            </div>
           </div>
-          <div>
-            <label>Assign to User: </label>
-            <select
-              value={selectedUserId || ""}
-              onChange={(e) => setSelectedUserId(e.target.value)}
-              disabled={!selectedTaskId}
-            >
-              <option value="">Select a user</option>
-              {project.users.map((user) => (
-                <option key={user._id} value={user._id}>
-                  {user.username}
-                </option>
-              ))}
-            </select>
+          <div className="col-md-6">
+            <div className='my-3 '>
+              <h3 style={{ color: "blue" }}>Update Project</h3>
+              <textarea
+                className="card-header d-flex flex-column w-75 my-4"
+                name="title"
+                value={formState.title}
+                onChange={handleChange}
+              ></textarea>
+              <div className="card-body d-flex flex-column w-75">
+                <textarea
+                  name="description"
+                  value={formState.description}
+                  onChange={handleChange}
+                ></textarea>
+                <button className="btn btn-primary mt-2" onClick={handleUpdateProject}>Update Project</button>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={handleAssignTask}
-            disabled={!selectedTaskId || !selectedUserId}
-          >
-            Assign Task
-          </button>
+          <div className="row border-top">
+            <div className="col-md-6">
+              <div className="d-flex flex-column w-50 mx-auto  my-3">
+                <TaskForm />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="my-5">
+                <h3>Assign Task:</h3>
+                <div className="m-3">
+                  <label htmlFor="task-select">Select Task  : </label>
+                  <select
+                    id="task-select"
+                    value={selectedTaskId || ""}
+                    onChange={(e) => setSelectedTaskId(e.target.value)}
+                  >
+                    <option value="">Select a task</option>
+                    {project.tasks.map((task) => (
+                      <option key={task._id} value={task._id}>
+                        {task.description}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="m-3">
+                  <label htmlFor="user-select">Assign to User  : </label>
+                  <select
+                    id="user-select"
+                    value={selectedUserId || ""}
+                    onChange={(e) => setSelectedUserId(e.target.value)}
+                    disabled={!selectedTaskId}
+                  >
+                    <option value="">Select a user</option>
+                    {project.users.map((user) => (
+                      <option key={user._id} value={user._id}>
+                        {user.username}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  className="text-center btn btn-primary"
+                  onClick={handleAssignTask}
+                  disabled={!selectedTaskId || !selectedUserId}
+                >
+                  Assign Task
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </>
