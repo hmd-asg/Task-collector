@@ -92,26 +92,26 @@ const SingleProject = () => {
             <div className="d-flex flex-column w-50 mx-auto  my-3">
               <h3 style={{ color: "blue" }}>{formState.title}</h3>
               <h6 className="text-info">Contributers : </h6>
-              {project.users.map(user => <p key={user._id}>{user.username}</p>)}
+              {project.users.map(user => <p className="text-center" key={user._id}>{user.username}</p>)}
               <input
                 type="text"
-                className="card-body bg-light mb-2"
                 name="new_user"
                 placeholder="Add Contributer"
                 onChange={handleChange}
               />
-              <Button onClick={handleAddUser}>Add member</Button>
+              <Button className="mt-3" onClick={handleAddUser}>Add member</Button>
             </div>
           </div>
           <div className="col-md-6">
-            <div className='my-3'>
+            <div className='my-3 '>
+              <h3 style={{ color: "blue" }}>Update Project</h3>
               <textarea
-                className="card-header text-dark w-75 p-2 m-0"
+                className="card-header d-flex flex-column w-75 my-4"
                 name="title"
                 value={formState.title}
                 onChange={handleChange}
               ></textarea>
-              <div className="card-body d-flex flex-column w-75 p-2">
+              <div className="card-body d-flex flex-column w-75">
                 <textarea
                   name="description"
                   value={formState.description}
@@ -121,7 +121,7 @@ const SingleProject = () => {
               </div>
             </div>
           </div>
-          <div className="row">
+          <div className="row border-top">
             <div className="col-md-6">
               <div className="d-flex flex-column w-50 mx-auto  my-3">
                 <TaskForm />
