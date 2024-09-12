@@ -11,7 +11,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import LoadingScreen from './components/LoadingScreen'; // Import the LoadingScreen component
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
