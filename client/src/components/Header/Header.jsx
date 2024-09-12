@@ -30,7 +30,7 @@ const Header = () => {
             <Link className="btn btn-lg btn-info m-2" to="/my-tasks">
               Tasks
             </Link>
-            <Link className="btn btn-lg btn-info m-2" to="/me">
+            <Link className="btn btn-lg btn-info m-2" to="/profile">
               {Auth.getProfile().data.username}
             </Link>
             <button className="btn btn-lg btn-info m-2" onClick={logout}>
