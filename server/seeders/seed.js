@@ -17,89 +17,86 @@ const cleanDB = async () => {
 // Seed data
 const seedData = async () => {
   try {
-    // 1. Create Users
     const usersData = [
       {
-        username: "Geralt of Rivia",
-        email: "geralt@witchersguild.dev",
+        username: "John McClane",
+        email: "john@diehard.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Yennefer of Vengerberg",
-        email: "yennefer@witchersguild.dev",
+        username: "Martin Riggs",
+        email: "martin@lethalweapon.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Ciri of Cintra",
-        email: "ciri@witchersguild.dev",
+        username: "James Bond",
+        email: "james@007.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Triss Merigold",
-        email: "triss@witchersguild.dev",
+        username: "Rambo",
+        email: "rambo@firstblood.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Dandelion",
-        email: "dandelion@witchersguild.dev",
+        username: "The Terminator",
+        email: "arnold@terminator.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Vesemir",
-        email: "vesemir@witchersguild.dev",
+        username: "Ethan Hunt",
+        email: "ethan@missionimpossible.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Zoltan Chivay",
-        email: "zoltan@witchersguild.dev",
+        username: "Mad Max",
+        email: "madmax@wasteland.com",
         password: await bcrypt.hash("rootroot", 10),
       },
       {
-        username: "Regis",
-        email: "regis@witchersguild.dev",
+        username: "Dutch",
+        email: "dutch@predator.com",
         password: await bcrypt.hash("rootroot", 10),
       },
     ];
 
     const users = await User.insertMany(usersData);
 
-    // 2. Create Tasks
     const tasksData = [
-      { description: "Scout the Griffin's Nest", status: "in progress" },
-      { description: "Prepare Potions for the Fight", status: "not started" },
-      { description: "Explore the Sunstone Caves", status: "in progress" },
-      { description: "Decode the Ancient Texts", status: "completed" },
-      { description: "Organize the King's Guards", status: "not started" },
-      { description: "Set up Defensive Wards", status: "in progress" },
-      { description: "Interview the Manor's Staff", status: "in progress" },
-      { description: "Exorcise the Spirits", status: "not started" },
+      { description: "Defuse the Bomb", status: "in progress" },
+      { description: "Rescue the Hostages", status: "not started" },
+      { description: "Find the Hidden Base", status: "in progress" },
+      { description: "Infiltrate the Enemy Lair", status: "completed" },
+      { description: "Stop the Nuclear Launch", status: "not started" },
+      { description: "Track the Enemy", status: "in progress" },
+      { description: "Investigate the Warehouse", status: "in progress" },
+      { description: "Escape the Trap", status: "not started" },
     ];
 
     const tasks = await Task.insertMany(tasksData);
 
-    // 3. Create Projects with Users and Tasks
     const projectsData = [
       {
-        title: "Defeat the Griffin",
-        description: "A griffin is terrorizing the nearby village.",
+        title: "Operation: Nakatomi Plaza",
+        description: "A group of terrorists has taken over Nakatomi Plaza. Rescue the hostages and defuse the bomb.",
         users: [users[0]._id, users[1]._id],
         tasks: [tasks[0]._id, tasks[1]._id],
       },
       {
-        title: "Retrieve the Sunstone",
-        description: "Retrieve the ancient Sunstone from the caves.",
+        title: "Mission: Impossible - Secret Base",
+        description: "Infiltrate a secret enemy base and gather intelligence.",
         users: [users[2]._id, users[3]._id],
         tasks: [tasks[2]._id, tasks[3]._id],
       },
       {
-        title: "Protect the King",
-        description: "Ensure the safety of the king during the council.",
+        title: "Terminator: Judgment Day",
+        description: "Prevent a nuclear apocalypse by stopping the launch.",
         users: [users[4]._id, users[5]._id],
         tasks: [tasks[4]._id, tasks[5]._id],
       },
       {
-        title: "Investigate the Haunted Manor",
-        description: "A manor is said to be haunted, investigate the cause.",
+        title: "Escape from the Wasteland",
+        description: "Survive and escape from a hostile wasteland with limited resources.",
         users: [users[6]._id, users[7]._id],
         tasks: [tasks[6]._id, tasks[7]._id],
       },
