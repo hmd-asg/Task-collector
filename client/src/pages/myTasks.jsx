@@ -2,6 +2,8 @@ import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME, UPDATE_TASK } from "../utils/queries";
 import TaskList from '../components/taskList';
+import { Container, Row, Col } from 'react-bootstrap';
+
 
 const Tasks = () => {
     const { loading, error, data } = useQuery(QUERY_ME);
@@ -37,22 +39,27 @@ const Tasks = () => {
     };
 
     return (
-        <div>
-            <div>Welcome to the Task Zone!</div>
-            <div>
-                <TaskList
-                    tasks={tasks}
-                    status="not started"
-                    onStatusChange={handleStatusChange}
-                />
-                <TaskList
-                    tasks={tasks}
-                    status="in progress"
-                    onStatusChange={handleStatusChange}
-                />
-            </div>
-        </div>
+        <Container>
+
+            <Row>
+                <Col md={6}>
+                    <TaskList
+                        tasks={tasks.filter(task => task.status === "not started")}
+                        status="not started"
+                        onStatusChange={handleStatusChange}
+                    />
+                </Col>
+                <Col md={6}>
+                    <TaskList
+                        tasks={tasks.filter(task => task.status === "in progress")}
+                        status="in progress"
+                        onStatusChange={handleStatusChange}
+                    />
+                </Col>
+            </Row>
+        </Container>
     );
 };
 
 export default Tasks;
+
