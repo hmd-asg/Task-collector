@@ -82,74 +82,96 @@ const SingleProject = () => {
   }
 
   return (
-    <>
-      <div>
-        <h3>Project Members</h3>
-        {project.users.map( user => <p key={user._id}>{user.username}</p>)}
-        <textarea
-          name="new_user"
-          placeholder="Add new user"
-          onChange={handleChange}
-        ></textarea>
-        <button onClick={handleAddUser}>Add member</button>
-      </div>
-      <div>
-        <textarea
-          name="title"
-          value={formState.title}
-          onChange={handleChange}
-        ></textarea>
-        <textarea
-          name="description"
-          value={formState.description}
-          onChange={handleChange}
-        ></textarea>
-        <button onClick={handleUpdateProject}>Update Project</button>
-
-        <div>
-          <TaskForm />
-        </div>
-
-        <div>
-          <h3>Assign Task:</h3>
-          <div>
-            <label>Select Task: </label>
-            <select
-              value={selectedTaskId || ""}
-              onChange={(e) => setSelectedTaskId(e.target.value)}
-            >
-              <option value="">Select a task</option>
-              {project.tasks.map((task) => (
-                <option key={task._id} value={task._id}>
-                  {task.description}
-                </option>
-              ))}
-            </select>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-6">
+          <h3>Project Members</h3>
+          {project.users.map(user => (
+            <p key={user._id}>{user.username}</p>
+          ))}
+          <div className="mb-3">
+            <textarea
+              className="form-control"
+              name="new_user"
+              placeholder="Add new user"
+              onChange={handleChange}
+            ></textarea>
           </div>
-          <div>
-            <label>Assign to User: </label>
-            <select
-              value={selectedUserId || ""}
-              onChange={(e) => setSelectedUserId(e.target.value)}
-              disabled={!selectedTaskId}
-            >
-              <option value="">Select a user</option>
-              {project.users.map((user) => (
-                <option key={user._id} value={user._id}>
-                  {user.username}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button
-            onClick={handleAssignTask}
-            disabled={!selectedTaskId || !selectedUserId}
-          >
-            Assign Task
+          <button className="btn btn-primary" onClick={handleAddUser}>
+            Add member
           </button>
         </div>
+        <div className="col-md-6">
+          <div className="mb-3">
+            <textarea
+              className="form-control"
+              name="title"
+              value={formState.title}
+              onChange={handleChange}
+              placeholder="Project Title"
+            ></textarea>
+          </div>
+          <div className="mb-3">
+            <textarea
+              className="form-control"
+              name="description"
+              value={formState.description}
+              onChange={handleChange}
+              placeholder="Project Description"
+            ></textarea>
+          </div>
+          <button className="btn btn-success mb-4" onClick={handleUpdateProject}>
+            Update Project
+          </button>
+
+          <div className="mb-4">
+            <TaskForm />
+          </div>
+
+          <div>
+            <h3>Assign Task:</h3>
+            <div className="mb-3">
+              <label>Select Task: </label>
+              <select
+                className="form-select"
+                value={selectedTaskId || ""}
+                onChange={(e) => setSelectedTaskId(e.target.value)}
+              >
+                <option value="">Select a task</option>
+                {project.tasks.map((task) => (
+                  <option key={task._id} value={task._id}>
+                    {task.description}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label>Assign to User: </label>
+              <select
+                className="form-select"
+                value={selectedUserId || ""}
+                onChange={(e) => setSelectedUserId(e.target.value)}
+                disabled={!selectedTaskId}
+              >
+                <option value="">Select a user</option>
+                {project.users.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {user.username}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              className="btn btn-primary"
+              onClick={handleAssignTask}
+              disabled={!selectedTaskId || !selectedUserId}
+            >
+              Assign Task
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
