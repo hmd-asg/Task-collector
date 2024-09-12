@@ -17,7 +17,7 @@
 [![Apollo GraphQL](https://img.shields.io/badge/Framework-apollo-88ff00?style=plastic&logo=npm&logoWidth=10)](https://www.apollographql.com/) 
 
 A MERN stack application that allows users to manage collaborative projects. Database queries and manipulations are performed using Apollo GraphQL.  
-[Link to the deployed application](https://ocrap.com)
+[Link to the deployed application](https://odang.com)
 ## Installation
 Must run "npm install" to install dependencies. The database can be seeded with "npm run seed" and the application's server can be started with "npm start".
 ## Usage
