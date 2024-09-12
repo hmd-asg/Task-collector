@@ -5,18 +5,19 @@ import { LOGIN_USER } from '../utils/mutations';
 import { useNavigate } from 'react-router-dom';
 
 import Auth from '../utils/auth';
+import './Login.css'; // Import the CSS file for the background styling
 
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (Auth.loggedIn()) {
       navigate('/');
     }
-  }, [])
+  }, []);
 
-  // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -26,10 +27,8 @@ const Login = (props) => {
     });
   };
 
-  // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
     try {
       const { data } = await login({
         variables: { ...formState },
@@ -40,7 +39,6 @@ const Login = (props) => {
       console.error(e);
     }
 
-    // clear form values
     setFormState({
       email: '',
       password: '',
@@ -48,18 +46,17 @@ const Login = (props) => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4 w-50 mx-auto">
-      <div className="card">
+    <div className="login-page">
+      <div className="login-container">
         <h4 className="card-header p-2 text-center">Login</h4>
         <div className="card-body">
           {data ? (
             <p>
-              Success! You may now head{' '}
-              <Link to="/">back to the homepage.</Link>
+              Success! You may now head <Link to="/">back to the homepage.</Link>
             </p>
           ) : (
             <>
-              <form className='d-flex flex-column' onSubmit={handleFormSubmit}>
+              <form className="d-flex flex-column" onSubmit={handleFormSubmit}>
                 <input
                   className="form-input my-3"
                   placeholder="Your email"
@@ -70,7 +67,7 @@ const Login = (props) => {
                 />
                 <input
                   className="form-input my-3"
-                  placeholder="******"
+                  placeholder="Enter your password"
                   name="password"
                   type="password"
                   value={formState.password}
@@ -84,8 +81,8 @@ const Login = (props) => {
                   Login
                 </button>
               </form>
-              <div className='my-3'>
-                Don't have an account <Link to='/signup'> Sign up</Link>
+              <div className="my-3 text-center">
+                Don't have an account? <Link to="/signup">Sign up</Link>
               </div>
             </>
           )}
@@ -97,7 +94,7 @@ const Login = (props) => {
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

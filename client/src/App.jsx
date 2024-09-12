@@ -1,4 +1,3 @@
-import './App.css';
 import {
   ApolloClient,
   InMemoryCache,
@@ -7,22 +6,18 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { Outlet } from 'react-router-dom';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { useState, useEffect } from 'react';
+import './App.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import LoadingScreen from './components/LoadingScreen'; // Import the LoadingScreen component
 
-// Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
-// Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -32,21 +27,44 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if the animation has already been played
+    const hasPlayed = localStorage.getItem('hasPlayedIntro');
+
+    if (hasPlayed) {
+      setIsLoading(false);
+    } else {
+      // If not played, show the animation and set the flag after it's done
+      setIsLoading(true);
+    }
+  }, []);
+
+  const handleAnimationComplete = () => {
+    // Set the flag in localStorage to mark the animation as played
+    localStorage.setItem('hasPlayedIntro', 'true');
+    setIsLoading(false);
+  };
+
   return (
     <ApolloProvider client={client}>
-      <div className="flex-column justify-flex-start min-100-vh">
-        <Header />
-        <div className="container">
-          <Outlet />
+      {isLoading ? (
+        <LoadingScreen onComplete={handleAnimationComplete} />
+      ) : (
+        <div>
+          <Header />
+          <div>
+            <Outlet />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      )}
     </ApolloProvider>
   );
 }

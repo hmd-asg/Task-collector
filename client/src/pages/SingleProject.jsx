@@ -4,7 +4,6 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_SINGLE_PROJECT } from "../utils/queries";
 import { ASSIGN_PROJECT, UPDATE_PROJECT, ASSIGN_TASK } from "../utils/mutations";
 import TaskForm from "../components/TaskForm";
-import { Button } from "react-bootstrap";
 
 const SingleProject = () => {
   const { projectId } = useParams();
@@ -20,8 +19,8 @@ const SingleProject = () => {
     tasks: project.tasks || [],
   });
 
-  const [selectedTaskId, setSelectedTaskId] = useState(null); // Track selected task
-  const [selectedUserId, setSelectedUserId] = useState(""); // Track selected user
+  const [selectedTaskId, setSelectedTaskId] = useState(null); 
+  const [selectedUserId, setSelectedUserId] = useState(""); 
 
   useEffect(() => {
     setFormState({
@@ -55,9 +54,9 @@ const SingleProject = () => {
       console.error(err);
     }
   };
+
   const handleAddUser = async (event) => {
     event.preventDefault();
-    console.log(formState);
     const username = formState.new_user;
     try {
       await assignProject({ variables: { username, projectId } });
@@ -66,13 +65,11 @@ const SingleProject = () => {
     }
   };
 
-
   const handleAssignTask = async () => {
     try {
       await assignTask({
         variables: { userId: selectedUserId, task: selectedTaskId },
       });
-      console.log("Task assigned successfully");
       setSelectedTaskId(null);
       setSelectedUserId("");
     } catch (err) {
@@ -170,6 +167,7 @@ const SingleProject = () => {
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </div>

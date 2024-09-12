@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans");
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' width='1920' height='1080' preserveAspectRatio='none' viewBox='0 0 1920 1080'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1769%26quot%3b)' fill='none'%3e%3crect width='1920' height='1080' x='0' y='0' fill='url(%26quot%3b%23SvgjsLinearGradient1770%26quot%3b)'%3e%3c/rect%3e%3cpath d='M 0%2c63 C 384%2c78.8 1536%2c126.2 1920%2c142L1920 1080L0 1080z' fill='rgba(120%2c 190%2c 228%2c 1)'%3e%3c/path%3e%3cpath d='M 0%2c424 C 384%2c397.6 1536%2c318.4 1920%2c292L1920 1080L0 1080z' fill='rgba(241%2c 160%2c 91%2c 1)'%3e%3c/path%3e%3cpath d='M 0%2c433 C 128%2c474 384%2c627 640%2c638 C 896%2c649 1024%2c486.2 1280%2c488 C 1536%2c489.8 1792%2c615.2 1920%2c647L1920 1080L0 1080z' fill='rgba(117%2c 207%2c 185%2c 1)'%3e%3c/path%3e%3cpath d='M 0%2c710 C 384%2c732.6 1536%2c800.4 1920%2c823L1920 1080L0 1080z' fill='rgba(255%2c 224%2c 139%2c 1)'%3e%3c/path%3e%3cpath d='M 0%2c884 C 384%2c905 1536%2c968 1920%2c989L1920 1080L0 1080z' fill='rgba(213%2c 89%2c 89%2c 1)'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1769'%3e%3crect width='1920' height='1080' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='50%25' y1='0%25' x2='50%25' y2='100%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1770'%3e%3cstop stop-color='rgba(41%2c 62%2c 84%2c 1)' offset='0.17'%3e%3c/stop%3e%3cstop stop-color='%2300459e' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
+    height: auto; /* Adjust the height to fit the content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-header {
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.card-body {
+    color: rgba(121, 123, 125, 1);
+    text-align: center;
+}
+
+/* General input styles */
+.form-input {
+    border: 0;
+    outline: none;
+    box-shadow: none;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    padding: 8px 8px;
+    border-bottom: 1px solid rgba(59, 103, 155, 1);
+    width: 100%;
+    font-size: 12px;
+    margin-bottom: 1.5rem;
+    background: transparent;
+    color: rgba(81, 81, 81, 1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Placeholder styles */
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Handle autofill background */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus,
+.form-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.3) inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Autofill override for Mozilla Firefox */
+.form-input:-moz-autofill {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+}
+
+/* General button styles */
+.btn-primary {
+    background-color: rgba(59, 103, 155, 1);
+    color: rgba(256, 256, 256, 0.7);
+    border: 0;
+    border-radius: 15px;
+    padding: 6.5px 21.5px; /* Half of the original padding */
+    width: 50%; /* Reduce the width to half */
+    font-size: 12px; /* Reduce the font size to half */
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for the button */
+.btn-primary:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.my-3 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.text-center {
+    text-align: center;
+}
